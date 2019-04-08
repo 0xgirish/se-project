@@ -15,11 +15,16 @@
 <body>
   <nav>
     <div class="nav-wrapper">
-      <a href="#!" class="brand-logo"><i class="material-icons">cloud</i>Logo</a>
+      <a href="#!" class="brand-logo"><i class="material-icons">shop</i>OpenSTORE</a>
       <ul class="right hide-on-med-and-down">
-        <li><a href="sass.html"><i class="material-icons">search</i></a></li>
+        <li><i class="material-icons" >search</i></li>
+					<li>
+						<form method='get' id='searchform' style='height:50px; padding-top:10px' action='/search/?l=hi' color='white'>
+							<input name='q' id="search" type="search" placeholder="search" color="white" style='font-size:16px font-color:"white"'>
+						</form>
+					</li>
         <li><a href="badges.html"><i class="material-icons">view_module</i></a></li>
-        <li><a href="collapsible.html"><i class="material-icons">refresh</i></a></li>
+        <li><a href="."><i class="material-icons">refresh</i></a></li>
         <li><a href="mobile.html"><i class="material-icons">more_vert</i></a></li>
       </ul>
     </div>
@@ -31,12 +36,14 @@
 	      <div class="card blue-grey darken-1">
 	        <div class="card-content white-text">
 	          <span class="card-title">{{prod}}</span>
-	          <img src={{ prod.image_url }} alt="product_image" width=100% height=20%>
-	          <p>{{ prod.product_details }}</p>
+	          <img src="https://cdn.pixabay.com/photo/2017/06/02/18/24/fruit-2367029_960_720.jpg" alt="watermelon" width=100% height=20%>
+	          
 	        </div>
 	        <div class="card-action">
-	          <a href="#">This is a link</a>
-	          <a href="#">This is a link</a>
+	        	{% if prod.product_name == "prod3" %}
+	        		<a href="#!" class="collection-item"><span class="new badge"></span></a>
+	        	{% endif %}
+	          <a href="#">200 Rupees</a>
 	        </div>
 	      </div>
 	    </div>
@@ -48,24 +55,27 @@
           <div class="container">
             <div class="row">
               <div class="col l6 s12">
-                <h5 class="white-text">Footer Content</h5>
-                <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
+                <h5 class="white-text">Get To Know Us</h5>
+              	<ul>
+                  <li><a class="grey-text text-lighten-3" href="#!">About us</a></li>
+                  <li><a class="grey-text text-lighten-3" href="#!">Careers</a></li>
+                  <li><a class="grey-text text-lighten-3" href="#!">Gift a smile</a></li>
+                </ul>
               </div>
               <div class="col l4 offset-l2 s12">
-                <h5 class="white-text">Links</h5>
+                <h5 class="white-text">Connect With Us</h5>
                 <ul>
-                  <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
-                  <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
-                  <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
-                  <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
+                  <li><a class="grey-text text-lighten-3" href="#!">Facebook</a></li>
+                  <li><a class="grey-text text-lighten-3" href="#!">Instagram</a></li>
+                  <li><a class="grey-text text-lighten-3" href="#!">Twitter</a></li>
                 </ul>
               </div>
             </div>
           </div>
           <div class="footer-copyright">
             <div class="container">
-            © 2014 Copyright Text
-            <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+            @ Software Engineering
+            <a class="grey-text text-lighten-4 right" href="#!">CSL456</a>
             </div>
           </div>
     </footer>
