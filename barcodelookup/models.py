@@ -17,6 +17,9 @@ class Product(models.Model):
         return self.title
 
 
+class Asin(models.Model):
+    product = models.OneToOneField(Product)
+
 class Book(models.Model):
     product = models.OneToOneField(Product, on_delete=models.CASCADE)
     author = models.CharField(max_length=40)

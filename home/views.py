@@ -1,5 +1,9 @@
 from django.shortcuts import render
+from barcodelookup.models import Product
 
 # Create your views here.
 def home_page(request):
-    return render(request, "home.html")
+    context = {
+        'products': Product.objects.all()
+    }
+    return render(request, "home.html", context)
