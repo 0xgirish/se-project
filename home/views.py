@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from barcodelookup.models import Product
+from django.contrib.auth.forms import UserCreationForm
 
 # Create your views here.
 def home_page(request):
