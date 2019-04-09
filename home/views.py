@@ -7,3 +7,6 @@ def home_page(request):
         'products': Product.objects.all()
     }
     return render(request, "home.html", context)
+
+def location(request):
+	return render(request, "location.html")
