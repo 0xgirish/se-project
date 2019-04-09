@@ -10,3 +10,7 @@ def home_page(request):
 
 def location(request):
 	return render(request, "location.html")
+
+def register(request):
+	form = UserCreationForm
+	return render(request = request, template_name = "register.html", context={"form":form})
