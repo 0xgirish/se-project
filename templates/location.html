@@ -1,0 +1,166 @@
+ <!DOCTYPE html>
+<html>
+<HEAD>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <!--Import materialize.css-->
+      <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+
+      <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <style>.slidecontainer {
+  width: 100%; /* Width of the outside container */
+}
+
+/* The slider itself */
+.slider {
+  -webkit-appearance: none;  /* Override default CSS styles */
+  appearance: none;
+  width: 100%; /* Full-width */
+  height: 25px; /* Specified height */
+  background: #d3d3d3; /* Grey background */
+  outline: none; /* Remove outline */
+  opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+  -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+  transition: opacity .2s;
+}
+
+/* Mouse-over effects */
+.slider:hover {
+  opacity: 1; /* Fully shown on mouse-over */
+}
+
+/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Override default look */
+  appearance: none;
+  width: 25px; /* Set a specific slider handle width */
+  height: 25px; /* Slider handle height */
+  background: #4CAF50; /* Green background */
+  cursor: pointer; /* Cursor on hover */
+}
+
+.slider::-moz-range-thumb {
+  width: 25px; /* Set a specific slider handle width */
+  height: 25px; /* Slider handle height */
+  background: #4CAF50; /* Green background */
+  cursor: pointer; /* Cursor on hover */
+}</style>
+</HEAD>
+
+<body>
+
+<nav>
+    <div class="nav-wrapper">
+      <a href="." class="brand-logo"><i class="material-icons">shopping_cart</i>Openstore</a>
+
+      <ul class="right hide-on-med-and-down">
+        <li><i class="material-icons" >search</i></li>
+          <li>
+            <form method='get' id='searchform' style='height:50px; padding-top:10px' action='/search/?l=hi' color='white'>
+              <input name='q' id="search" type="search" placeholder="search" color="white" style='font-size:16px font-color:"white"'>
+            </form>
+          </li>
+        <li><a href="."><i class="material-icons">first_page</i></a></li>
+        <li><a href="./location.html"><i class="material-icons">refresh</i></a></li>
+        <li><a href="mobile.html"><i class="material-icons">more_vert</i></a></li>
+      </ul>
+    </div>
+  </nav>
+
+<center>
+<h1>Set Your Location and Radius</h1>
+<div style="max-width:1500px; min-height:100%">
+<div id="googleMap" style="width:90%;height:400px;"></div>
+
+<script>
+  var x = document.getElementById("demo");
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else {
+    x.innerHTML = "Geolocation is not supported by this browser.";
+  }
+}
+
+function showPosition(position) {
+  x.innerHTML = "Latitude: " + position.coords.latitude +
+  "<br>Longitude: " + position.coords.longitude;
+}
+function myMap() {
+var mapProp= {
+  center:new google.maps.LatLng(1.508742,-0.120850),
+  zoom:5,
+};
+var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+}
+function showPosition(position) {
+  var latlon = position.coords.latitude + "," + position.coords.longitude;
+
+  var img_url = "https://maps.googleapis.com/maps/api/staticmap?center="+latlon+"&zoom=14&size=400x300&sensor=false&key=AIzaSyAL4or6mMUe9wYcx6tmkupgkuBQ72j9aS0";
+
+  document.getElementById("mapholder").innerHTML = "<img src='"+img_url+"'>";
+}
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAL4or6mMUe9wYcx6tmkupgkuBQ72j9aS0&callback=myMap"></script>
+
+        
+
+<div class="slidecontainer">
+
+  <input type="range" min="5" max="200" value="50" class="slider" id="myRange">
+  <center><p>Radius: <span id="demo"></span>km</p></center>
+</div>
+   <script>
+     var slider = document.getElementById("myRange");
+var output = document.getElementById("demo");
+output.innerHTML = slider.value; // Display the default slider value
+
+// Update the current slider value (each time you drag the slider handle)
+slider.oninput = function() {
+  output.innerHTML = this.value;
+} 
+   </script>
+
+
+  <br>
+  <center><button class="btn waves-effect waves-light" type="submit" name="action">Submit
+    <i class="material-icons right">send</i>
+  </button></center>
+</div>
+</center>
+<br><br>
+<footer class="page-footer">
+          <div class="container">
+            <div class="row">
+              <div class="col l6 s12">
+                <h5 class="white-text">Get To Know Us</h5>
+                <ul>
+                  <li><a class="grey-text text-lighten-3" href="#!">About us</a></li>
+                  <li><a class="grey-text text-lighten-3" href="#!">Careers</a></li>
+                  <li><a class="grey-text text-lighten-3" href="#!">Gift a smile</a></li>
+                </ul>
+              </div>
+              <div class="col l4 offset-l2 s12">
+                <h5 class="white-text">Connect With Us</h5>
+                <ul>
+                  <li><a class="grey-text text-lighten-3" href="#!">Facebook</a></li>
+                  <li><a class="grey-text text-lighten-3" href="#!">Instagram</a></li>
+                  <li><a class="grey-text text-lighten-3" href="#!">Twitter</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="footer-copyright">
+            <div class="container">
+            @ Software Engineering
+            <a class="grey-text text-lighten-4 right" href="#!">CSL456</a>
+            </div>
+          </div>
+    </footer>
+</body>
+</html> 

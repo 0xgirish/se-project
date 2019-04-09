@@ -16,6 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include, register_converter
 from home.views import home_page
+from home.views import location
+from home.views import register
 
 from barcodelookup import converter
 
@@ -24,4 +26,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('lookup/<ean:barcode>', include('barcodelookup.urls')),
     path('', home_page),
+    path('location.html', location),
+    path("register", register, name="register"),
 ]
