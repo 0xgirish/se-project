@@ -11,21 +11,16 @@ class Product(models.Model):
     title = models.CharField(max_length=200, default='')
     description = models.TextField(default="")
     image_url = models.TextField(default=NOT_FOUND)
-    is_book = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
 
 
-# class Asin(models.Model):
-#     product = models.OneToOneField(Product)
-
-class Book(models.Model):
-    product = models.OneToOneField(Product, on_delete=models.CASCADE)
-    author = models.CharField(max_length=40)
-    no_of_pages = models.IntegerField()
-    publisher = models.CharField(max_length=120)
-    publish_date = models.CharField(max_length=40)
+class Asin(models.Model):
+    product = models.OneToOneField(Product, on_delete=models.PROTECT)
+    asin = models.CharField(max_length=40)
+    link = models.TextField()
 
     def __str__(self):
-        return self.product.title
+        return self.link
+

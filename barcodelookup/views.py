@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.core import serializers
-from .models import Product, Book
+from .models import Product, Asin
 
 import json
 import requests
@@ -18,49 +18,66 @@ def is_isbn(barcode):
 def lookup_in_database(barcode):
     try:
         product = Product.objects.get(barcode=barcode)
+        return product
     except Product.DoesNotExist:
-        return None, None
-
-    if product.is_book:
-        book = Book.objects.get(product=product)
-        return product, book
-    return product, None
+        return None
 
 
-def add_product_to_database(json_resp):
-    pass
+def get_names(resp):
+    size = len(resp)
+    names = ""
+    for i in range(size):
+        if i == size-1:
+            names += resp[i]["name"]
+        else:
+            names += resp[i]["name"] + ", "
+    return names
+
 
 def lookup_product(request, barcode):
-    # example test
-    # TODO: change function to scrap or do api calls for barcode lookup
-    # TODO: 1. Look into openstore database
-    # TODO: 2. If not, then look up in https://barcodelookup.com etc
-    # books api: https://openlibrary.org/api/books?bibkeys=ISBN:9789352135219&format=json&jscmd=data
+    # add author 
     
-    product, book = lookup_in_database(barcode)
+    product = lookup_in_database(barcode)
     if product != None:
         s_product = serializers.serialize('json', [product, ])
-        if book == None:
-            return HttpResponse(s_product)
-        
-        s_object = serializers.serialize('json', [product, book, ])
-        return HttpResponse(s_object)
+        json_data = json.loads(s_product)
+        fields = json_data[0]["fields"]
+        print(type(fields))
+        return HttpResponse([fields])
 
     # check if barcode is isbn
     if is_isbn(barcode):
         api_url = ISBN_API_URL.format(barcode)
         resp = requests.get(api_url)
-        return HttpResponse(resp)
-    else:
-        result = google_custom_search(barcode)
-        if result is None:
-            return HttpResponse(json.dumps({"result": 0}))
-        # TODO: add context_link if amazon,  ASIN
-        title, image_url, context_link = result[0], result[1], result[2]
-        product = Product(barcode=barcode, title=title, image_url=image_url)
-        product.save()
-        s_product = serializers.serialize('json', [product, ])
-        return HttpResponse(s_product)
+        r = json.loads(resp.text)
+        if len(r) != 0:
+            item = r["ISBN:{}".format(barcode)]
+            image_url = item["cover"]["medium"]
+            title = item["title"]
+            description = "Authors: {}\nPublishers: {}".format(get_names(item["authors"]), get_names(item["publishers"]))
+            product = Product(barcode=barcode, title=title, image_url=image_url, description=description)
+            product.save()
+            s_product = serializers.serialize('json', [product, ])
+            json_data = json.loads(s_product)
+            fields = json_data[0]["fields"]
+            return HttpResponse([fields])
+    result = google_custom_search(barcode)
+    if result is None:
+        return HttpResponse(json.dumps({"result": 0}))
+    # TODO: add context_link if amazon,  ASIN
+    title, image_url, context_link = result[0], result[1], result[2]
+    product = Product(barcode=barcode, title=title, image_url=image_url)
+    product.save()
+    s_product = serializers.serialize('json', [product, ])
+    if context_link.find("amazon") != -1:
+        link = "/".join(context_link.split("/")[3:])
+        link = "https://www.amazon.in/" + link
+        asin_code = context_link.split("/")[-1]
+        asin = Asin(product=product, asin=asin_code, link=link)
+        asin.save()
+    json_data = json.loads(s_product)
+    fields = json_data[0]["fields"]
+    return HttpResponse([fields])
 
 def google_custom_search(barcode):
     api_url = GOOGLE_API.format("AIzaSyBZVs8cxX4mbesnj-pt55so0DfpSe2PJow", "005395856063250790473:if-ztsdoo8m", barcode)
