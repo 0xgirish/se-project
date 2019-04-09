@@ -10,9 +10,54 @@
 
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <style>
+      
+      .sidenav {
+        width: 130px;
+        position: fixed;
+        z-index: 1;
+        top: 20px;
+        left: 10px;
+        background: #eee;
+        overflow-x: hidden;
+        padding: 8px 0;
+      }
+      .sidenav a {
+        padding: 6px 8px 6px 16px;
+        text-decoration: none;
+        font-size: 25px;
+        color: #2196F3;
+        display: block;
+      }
+
+      .sidenav a:hover {
+        color: #064579;
+      }
+      .main {
+        margin-left: 140px; /* Same width as the sidebar + left position in px */
+        font-size: 28px; /* Increased text to enable scrolling */
+        padding: 0px 10px;
+      }
+
+      @media screen and (max-height: 450px) {
+        .sidenav {padding-top: 15px;}
+        .sidenav a {font-size: 18px;}
+      }
+
+    </style>
+
 </head>
 
 <body>
+
+  <div class="sidenav">
+    <a href="#about">About</a>
+    <a href="#services">Services</a>
+    <a href="#clients">Clients</a>
+    <a href="#contact">Contact</a>
+  </div>
+
   <nav>
     <div class="nav-wrapper">
       <a href="#!" class="brand-logo"><i class="material-icons">shopping_cart</i>Openstore</a>
@@ -24,12 +69,14 @@
 							<input name='q' id="search" type="search" placeholder="search" color="white" style='font-size:16px font-color:"white"'>
 						</form>
 					</li>
-        <li><a href="badges.html"><i class="material-icons">view_module</i></a></li>
+        <li><a href="./location.html"><i class="material-icons">location_on</i></a></li>
         <li><a href="."><i class="material-icons">refresh</i></a></li>
         <li><a href="mobile.html"><i class="material-icons">more_vert</i></a></li>
       </ul>
     </div>
   </nav>
+  
+
   <div class="container" style="max-width:1500px; min-height:100%">
   <div class="row">
 
@@ -41,7 +88,7 @@
 	          <img src="{{prod.image_url}}" alt="watermelon" width=100% height=20%>
 	        </div>
 	        <div class="card-action">
-	        	{% if prod.product_name == "prod3" %}
+	        	{% if prod.title == "BHUJIA" %}
 	        		<a href="#!" class="collection-item"><span class="new badge"></span></a>
 	        	{% endif %}
 	          <a href="#">200 Rupees</a>
