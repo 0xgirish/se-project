@@ -31,3 +31,7 @@ def register(request):
 	return render(request = request,
                   template_name = "register.html",
                   context={"form":form})
+
+def logout_request(request):
+	logout(request)
+	return redirect("/")
