@@ -18,8 +18,11 @@ from django.urls import path, include, register_converter
 from home.views import home_page
 from home.views import location
 from home.views import register
+from home.views import logout_request
 
 from barcodelookup import converter
+
+app_name = "openstore"
 
 register_converter(converter.BarcodeConverter, 'ean')
 urlpatterns = [
@@ -28,4 +31,5 @@ urlpatterns = [
     path('', home_page),
     path('location.html', location),
     path("register", register, name="register"),
+    path("logout", logout_request, name="logout"),
 ]
