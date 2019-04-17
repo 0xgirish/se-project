@@ -19,6 +19,7 @@ from home.views import home_page
 from home.views import location
 from home.views import register
 from home.views import logout_request
+from home.views import login_request
 
 from barcodelookup import converter
 
@@ -32,4 +33,5 @@ urlpatterns = [
     path('location.html', location),
     path("register", register, name="register"),
     path("logout", logout_request, name="logout"),
+    path("login", login_request, name="login"),
 ]
