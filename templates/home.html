@@ -45,6 +45,12 @@
         .sidenav a {font-size: 18px;}
       }
 
+      .trunc {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
     </style>
 
 </head>
@@ -86,14 +92,14 @@
 	    <div class="col s12 m6 l3">
 	      <div class="card blue-grey darken-1">
 	        <div class="card-content white-text">
-	          <span class="card-title">{{prod}}</span>
-	          <img src="{{prod.image_url}}" alt="watermelon" width=100% height=20%>
+	          <span class="card-title trunc"><p style="font-size:16px">{{prod}}<p></span>
+	          <img src="{{prod.image_url}}" alt="{{prod}}" width=100% height=20%>
 	        </div>
 	        <div class="card-action">
-	        	{% if prod.title == "BHUJIA" %}
+	        	{% if prod.title == "HALDIRAM PLAIN BHUJIA NAMKEEN 200GM - Namkeen - Bavers & Sankes" %}
 	        		<a href="#!" class="collection-item"><span class="new badge"></span></a>
 	        	{% endif %}
-	          <a href="#">200 Rupees</a>
+	          <a href="#">₹ 200/-</a>
 	        </div>
 	      </div>
 	    </div>
