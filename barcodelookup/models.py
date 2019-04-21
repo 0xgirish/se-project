@@ -34,10 +34,14 @@ class Book(models.Model):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.PROTECT)
-    first_name = models.CharField(max_length=20)
-    last_name = models.CharField(max_length=20)
-    website = models.CharField(max_length=100)
-    phone = models.CharField(max_length=14)
+    shop_name = models.CharField(max_length=100, default='')
+    shop_address = models.CharField(max_length=1000, default='')
+    shop_city = models.CharField(max_length=100, default='')
+    website = models.CharField(max_length=100, default='')
+    phone = models.CharField(max_length=14, default='')
+
+    def __str__(self):
+        return self.user.username
 
 def create_profile(sender, **kwargs):
     if kwargs['created']:
