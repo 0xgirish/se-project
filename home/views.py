@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
-from barcodelookup.models import Product
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from barcodelookup.models import Product, User
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
+from barcodelookup.forms import RegistrationForm
 
 # Create your views here.
 def home_page(request):
@@ -17,7 +18,7 @@ def location(request):
 
 def register(request):
 	if request.method=='POST':
-		form = UserCreationForm(request.POST)
+		form = RegistrationForm(request.POST)
 		if form.is_valid():
 			user = form.save()
 			username = form.cleaned_data.get('username')
@@ -30,7 +31,7 @@ def register(request):
 			return render(request = request,
                           template_name = "register.html",
                           context={"form":form})
-	form = UserCreationForm
+	form = RegistrationForm
 	return render(request = request,
                   template_name = "register.html",
                   context={"form":form})
@@ -58,3 +59,8 @@ def login_request(request):
 	return render(request = request,
                   template_name = "login.html",
                   context={"form":form})
+
+
+def account_access(request):
+	args = {'user': request.user}
+	return render(request, 'account.html', args)
