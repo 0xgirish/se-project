@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
 
 # image url with image not found
 NOT_FOUND = "https://i.ibb.co/dj1qb0D/product-image-not-found.gif"
@@ -29,3 +31,16 @@ class Book(models.Model):
 
     def __str__(self):
         return self.product.title
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.PROTECT)
+    first_name = models.CharField(max_length=20)
+    last_name = models.CharField(max_length=20)
+    website = models.CharField(max_length=100)
+    phone = models.CharField(max_length=14)
+
+def create_profile(sender, **kwargs):
+    if kwargs['created']:
+        user_profile = UserProfile.objects.create(user=kwargs['instance'])
+
+post_save.connect(create_profile, sender=User)
