@@ -4,6 +4,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from barcodelookup.forms import RegistrationForm
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def home_page(request):
@@ -36,6 +37,7 @@ def register(request):
                   template_name = "register.html",
                   context={"form":form})
 
+@login_required
 def logout_request(request):
 	logout(request)
 	return redirect("/")
@@ -60,7 +62,7 @@ def login_request(request):
                   template_name = "login.html",
                   context={"form":form})
 
-
+@login_required
 def account_access(request):
 	args = {'user': request.user}
 	return render(request, 'account.html', args)
