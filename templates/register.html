@@ -1,10 +1,24 @@
 {% extends 'header.html' %}
 
+{% if messages %}
+	{% for message in messages %}
+	 	{% if message.tags == 'success'%}
+			<script>M.toast({html: "{{message}}", classes: 'green rounded', displayLength:2000});</script>
+			{% elif message.tags == 'info'%}
+			<script>M.toast({html: "{{message}}", classes: 'blue rounded', displayLength:2000});</script>
+			{% elif message.tags == 'warning'%}
+			<script>M.toast({html: "{{message}}", classes: 'orange rounded', displayLength:10000});</script>
+			{% elif message.tags == 'error'%}
+			<script>M.toast({html: "{{message}}", classes: 'red rounded', displayLength:10000});</script>
+		{% endif %}
+	{% endfor %}
+{% endif %}
 {% block content %}
 	<br><br>
     <form method="POST">
         {% csrf_token %}
-        {{form}}
+        {{form.as_p}}
+        <br><br><button style="background-color:#F4EB16; color:blue" class="btn btn-outline-info" type="submit">Sign Up</button>
     </form>
 
     If you already have an account <a href="/login" target="blank"><strong>login</strong></a> instead.

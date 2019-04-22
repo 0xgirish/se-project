@@ -46,12 +46,6 @@
         .sidenav a {font-size: 18px;}
       }
 
-      .trunc {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-
     </style>
 
 </head>
@@ -86,27 +80,20 @@
   
 
   <div class="container" style="max-width:1500px; min-height:100%">
-  <div class="row">
-
-  	{% for prod in products %}
-	    <div class="col s12 m6 l3">
-	      <div class="card blue-grey darken-1">
-	        <div class="card-content white-text">
-	          <span class="card-title trunc"><p style="font-size:16px">{{prod}}<p></span>
-	          <img src="{{prod.image_url}}" alt="{{prod}}" width=100% height=20%>
-	        </div>
-	        <div class="card-action">
-	        	{% if prod.title == "HALDIRAM PLAIN BHUJIA NAMKEEN 200GM - Namkeen - Bavers & Sankes" %}
-	        		<a href="#!" class="collection-item"><span class="new badge"></span></a>
-	        	{% endif %}
-	          <a href="#">₹ 200/-</a>
-	        </div>
-	      </div>
-	    </div>
-	{% endfor %}
-	<script type="text/javascript" src="js/materialize.min.js"></script>
+    <div class="row">
+      <h1>Profile</h1>
+      <p>Username : {{user}}</p>
+      <p>First Name : {{user.first_name}}</p>
+      <p>Last Name : {{user.last_name}}</p>
+      <p>Email : {{user.email}}</p>
+      <p>Phone : {{user.userprofile.phone}}</p>
+      <p>Website : {{user.userprofile.website}}</p>
+      <p>Shop Name : {{user.userprofile.shop_name}}</p>
+      <p>Shop Address : {{user.userprofile.shop_address}}</p>
+      <p>Shop City : {{user.userprofile.shop_city}}</p>
+      <p>Products Available: #HoOWEJWOAJEOAJ</p>
+  	</div>
   </div>
-</div>
 	<footer class="page-footer">
           <div class="container">
             <div class="row">
