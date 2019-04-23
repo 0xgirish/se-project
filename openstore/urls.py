@@ -15,7 +15,6 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include, register_converter
-from home.views import home_page
 from home.views import location
 from home.views import register
 from home.views import logout_request

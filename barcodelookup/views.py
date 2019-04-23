@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.http import HttpResponse
 from django.core import serializers
 from .models import Product, Asin
@@ -10,10 +9,12 @@ import requests
 ISBN_API_URL = "https://openlibrary.org/api/books?bibkeys=ISBN:{}&format=json&jscmd=data"
 GOOGLE_API = "https://www.googleapis.com/customsearch/v1?key={}&cx={}&q={}&searchType=image&fileType=jpg&imgSize=medium&alt=json"
 
+
 def is_isbn(barcode):
     if str(barcode).startswith("978"):
         return True
     return False
+
 
 def lookup_in_database(barcode):
     try:

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="Django default" uuid="82cfde23-8330-48b2-9fe7-88fa88156284">
+      <database-info product="PostgreSQL" version="10.7 (Ubuntu 10.7-0ubuntu0.18.04.1)" jdbc-version="4.2" driver-name="PostgreSQL JDBC Driver" driver-version="42.2.5" dbms="POSTGRES" exact-version="10.7" exact-driver-version="42.2">
+        <identifier-quote-string>&quot;</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact" />
+      <user-name>se19</user-name>
+      <introspection-schemas>openstore:@,public</introspection-schemas>
+    </data-source>
+  </component>
+</project>
