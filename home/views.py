@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from barcodelookup.models import Product, User
+from barcodelookup.models import Product
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
@@ -11,8 +11,13 @@ def home_page(request):
     context = {
         'products': Product.objects.all()
     }
-    return render(request, "home.html", context)
+    return render(request, "index.html", context)
+	
+def contact_page(request):
+	return render(request, "contact.html")
 
+def temp_page(request):
+	return render(request, "single.html")
 
 def location(request):
 	return render(request, "location.html")

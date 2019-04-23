@@ -30,7 +30,7 @@ register_converter(converter.BarcodeConverter, 'ean')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('lookup/<ean:barcode>', include('barcodelookup.urls')),
-    path('', home_page),
+    path('', include('home.urls')),
     path('location.html', location),
     path("register", register, name="register"),
     path("logout", logout_request, name="logout"),
