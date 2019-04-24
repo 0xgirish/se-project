@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect
-# from barcodelookup.models import Product
 from django.http import HttpResponseNotFound
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
@@ -7,13 +6,18 @@ from django.contrib import messages
 from .forms import RegistrationForm
 from django.contrib.auth.decorators import login_required
 
+from seller.models import ShopItem
+
 
 # Create your views here.
 def home_page(request):
+    items = ShopItem.objects.all()
     form = RegistrationForm
-    return render(request=request,
-                  template_name="index.html",
-                  context={"form": form})
+    context = {
+        "items": items,
+        "form": form,
+    }
+    return render(request=request, template_name="index.html", context=context)
 
 
 def register_view(request):
