@@ -1,14 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
-from django.dispatch import receiver
 
 from barcodelookup.models import Product
 
 
 # Create your models here.
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.PROTECT)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     address = models.CharField(max_length=1000, default='')
     phone = models.CharField(max_length=14, default='')
     website = models.CharField(max_length=100, default='')
@@ -46,8 +45,9 @@ class ShopItem(models.Model):
     quantity = models.IntegerField(default=1)
 
 
-@receiver(post_save, sender=User)
-def create_profile(sender, instance, created, **kwargs):
-    if created:
-        UserProfile.objects.create(user=instance)
-    instance.profile.save()
+def create_profile(sender, **kwargs):
+    if kwargs['created']:
+        user_profile = UserProfile.objects.create(user=kwargs['instance'])
+
+
+post_save.connect(create_profile, sender=User)

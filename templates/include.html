@@ -123,7 +123,6 @@
 		</div>
 	</div>
 	<!-- //shop locator (popup) -->
-
 	<!-- modals -->
 	<!-- Seller Log In -->
 	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -136,14 +135,13 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<form action="#" method="post">
+					<form method="POST">
+                        {% csrf_token %}
 						<div class="form-group">
-							<label class="col-form-label">Username</label>
-							<input type="text" class="form-control" placeholder=" " name="Name" required="">
+							<input type="text" class="form-control" placeholder="username" name="username" required="">
 						</div>
 						<div class="form-group">
-							<label class="col-form-label">Password</label>
-							<input type="password" class="form-control" placeholder=" " name="Password" required="">
+							<input type="password" class="form-control" placeholder="password" name="password" required="">
 						</div>
 						<div class="right-w3l">
 							<input type="submit" class="form-control" value="Log in">
@@ -174,31 +172,35 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<form action="#" method="post">
+					<form method="POST">
+                        {% csrf_token %}
 						<div class="form-group">
-							<label class="col-form-label">Your Name</label>
-							<input type="text" class="form-control" placeholder=" " name="Name" required="">
+{#							<label class="col-form-label">Username</label>#}
+							<input type="text" class="form-control" placeholder="username" name="username" required="">
 						</div>
 						<div class="form-group">
-							<label class="col-form-label">Email</label>
-							<input type="email" class="form-control" placeholder=" " name="Email" required="">
+{#							<label class="col-form-label">First Name</label>#}
+							<input type="text" class="form-control" placeholder="First Name" name="first_name" required="">
+						</div>
+                      <div class="form-group">
+{#							<label class="col-form-label">Last Name</label>#}
+							<input type="text" class="form-control" placeholder="Last Name" name="last_name" required="">
 						</div>
 						<div class="form-group">
-							<label class="col-form-label">Password</label>
-							<input type="password" class="form-control" placeholder=" " name="Password" id="password1" required="">
+{#							<label class="col-form-label">Email</label>#}
+							<input type="email" class="form-control" placeholder="Email" name="email" required="">
 						</div>
 						<div class="form-group">
-							<label class="col-form-label">Confirm Password</label>
-							<input type="password" class="form-control" placeholder=" " name="Confirm Password" id="password2" required="">
+{#							<label class="col-form-label">Password</label>#}
+							<input type="password" class="form-control" placeholder="password" name="password1" id="password1" required="">
 						</div>
+						<div class="form-group">
+{#							<label class="col-form-label">Confirm Password</label>#}
+							<input type="password" class="form-control" placeholder="confirm password" name="password2" id="password2" required="">
+						</div>
+{#                        {{form.as_p}}#}
 						<div class="right-w3l">
 							<input type="submit" class="form-control" value="Register">
-						</div>
-						<div class="sub-w3l">
-							<div class="custom-control custom-checkbox mr-sm-2">
-								<input type="checkbox" class="custom-control-input" id="customControlAutosizing2">
-								<label class="custom-control-label" for="customControlAutosizing2">I Accept to the Terms & Conditions</label>
-							</div>
 						</div>
 					</form>
 				</div>

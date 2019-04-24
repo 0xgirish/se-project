@@ -30,8 +30,3 @@ class RegistrationForm(UserCreationForm):
             user.save()
         return user
 
-# class ShopRegistrationForm(forms.ModelForm):
-#     address = forms.TextInput(required=True)
-#
-#     class Meta:
-#         model=
