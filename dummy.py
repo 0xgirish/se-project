@@ -1,4 +1,3 @@
-from django.contrib.auth.models import User
 from barcodelookup.models import Product
 from seller.models import UserProfile, ShopProfile, ShopItem
 
@@ -22,15 +21,7 @@ def progress_bar(x, n):
     print(bar, end=e)
 
 
-try:
-    # create dummy user profile
-    userp = User(username="foobar", first_name="Ram", last_name="Krishna", password="12ergh90", email="ram@gmail.com")
-    userp.save()
-
-    user = UserProfile(user=userp, address="Bela Chauk Rupnagar 140001", phone="9825205502", website="https://belaropar.com" )
-    user.save()
-except:
-    user = UserProfile.objects.all()[0]
+user = UserProfile.objects.all()[0]
 
 shop_names = ["Apna Groceries", "Green World", "Departmental Shop"]
 latitudes = [30.9676117, 30.968094, 30.967967]
