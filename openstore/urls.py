@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include, register_converter
+from django.conf import settings
+from django.conf.urls.static import static
 from home.views import register
 from home.views import logout_request
 from home.views import login_request
@@ -35,3 +37,6 @@ urlpatterns = [
     path("account", account_access, name="account"),
     path('seller/', include('seller.urls')),
 ]
+
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

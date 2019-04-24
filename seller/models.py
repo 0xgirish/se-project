@@ -5,7 +5,7 @@ from django.db.models.signals import post_save
 from barcodelookup.models import Product
 
 
-NOT_FOUND = "https://i.ibb.co/dj1qb0D/product-image-not-found.gif"
+NOT_FOUND = "/media/images/product-image-not-found.gif"
 
 
 # Create your models here.
@@ -49,6 +49,7 @@ class ShopItem(models.Model):
     priority = models.CharField(max_length=2, choices=ITEM_PRIORITY_CHOICES, default=MEDIUM)
     description = models.TextField(default="not available")
     image_url = models.TextField(default=NOT_FOUND)
+    # image_url = models.ImageField(upload_to="images/")
     quantity = models.IntegerField(default=1)
 
     def __str__(self):

@@ -1,7 +1,8 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import ShopProfile
+from .models import ShopProfile, ShopItem
+from barcodelookup.models import Product
 
 
 class RegistrationForm(UserCreationForm):
@@ -58,28 +59,34 @@ class RegisterShopForm(forms.Form):
 
 
 class RegisterItemForm(forms.Form):
-    name = forms.CharField(max_length=100, required=True)
-    latitude = forms.FloatField(required=True)
-    longitude = forms.FloatField(required=True)
-    website = forms.FloatField()
+    image_url = forms.ImageField(allow_empty_file=True)
 
     class Meta:
-        model = ShopProfile
+        model = ShopItem
         fields = {
-            'user',
-            'name',
-            'latitude',
-            'longitude',
-            'website',
-            'review_stars',
+            'shop',
+            'barcode',
+            'price',
+            'priority',
+            'image_url',
+            'description',
+            'quantity',
         }
 
     def save(self, commit=True):
         item = super(RegisterItemForm, self).svae(commit=False)
-        item.name = self.cleaned_data['name']
-        item.latitude = self.cleaned_data['latitude']
-        item.longitude = self.cleaned_data['longitude']
-        item.website = self.cleaned_data['website']
+        item.price = self.cleaned_data['price']
+        item.priority = self.cleaned_data['priority']
+        item.quantity = self.cleaned_data['quantity']
+        item.description = self.cleaned_data['description']
+
+        barcode = self.cleaned_data['barcode']
+        shop_id = self.cleaned_data['shop']
+        product = Product.objects.get(barcode=barcode)
+        shop = ShopProfile.objects.get(id=shop_id)
+
+        item.product = product
+        item.shop = shop
 
         if commit:
             item.save()
