@@ -13,30 +13,24 @@ product_name = "Product - {}"
 
 
 def progress_bar(x, n):
+    e = "\r" if x <= n else "\n"
+    x = n if x > n else x
     if n > 10:
         bar = "[" + "=" * x + ">" + " " * (n - x) + "]"
     else:
         bar = "[" + "=" * 5*x + ">" + " " * 5*(n - x) + "]"
-    print(bar, end="\r")
+    print(bar, end=e)
 
 
-print("Creating dummy products...")
-progress_bar(0, 25)
-# create dummy products
-for i in range(25):
-    barcode = str(base_barcode + i)
-    title = product_name.format(barcode[-3:])
-    product = Product(barcode=barcode, image_url=NOT_FOUND, title=title)
-    product.save()
+try:
+    # create dummy user profile
+    userp = User(username="foobar", first_name="Ram", last_name="Krishna", password="12ergh90", email="ram@gmail.com")
+    userp.save()
 
-    progress_bar(i+1, 25)
-
-# create dummy user profile
-user = User(username="foobar", first_name="Ram", last_name="Krishna", password="12ergh90", email="ram@gmail.com")
-user.save()
-
-user = UserProfile(user=user, phone="9825205502", address="Bela Chauk, Rupnagar, 140001")
-user.save()
+    user = UserProfile(user=userp, address="Bela Chauk Rupnagar 140001", phone="9825205502", website="https://belaropar.com" )
+    user.save()
+except:
+    user = UserProfile.objects.all()[0]
 
 shop_names = ["Apna Groceries", "Green World", "Departmental Shop"]
 latitudes = [30.9676117, 30.968094, 30.967967]
@@ -50,6 +44,19 @@ for i in range(3):
     shop.save()
 
     progress_bar(i+1, 3)
+progress_bar(4, 3)
+
+print("\nCreating dummy products...")
+progress_bar(0, 25)
+# create dummy products
+for i in range(25):
+    barcode = str(base_barcode + i)
+    title = product_name.format(barcode[-3:])
+    product = Product(barcode=barcode, image_url=NOT_FOUND, title=title)
+    product.save()
+
+    progress_bar(i+1, 25)
+progress_bar(26, 25)
 
 products = Product.objects.all()
 shops = ShopProfile.objects.all()
@@ -69,3 +76,4 @@ for i in range(30):
     item.save()
 
     progress_bar(i+1, 30)
+progress_bar(31, 30)

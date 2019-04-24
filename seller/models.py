@@ -18,6 +18,12 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.user.username
 
+    def delete(self, using=None, keep_parents=False):
+        user = self.user
+        super().delete(using, keep_parents)
+
+        user.delete()
+
 
 # latitude longitude
 class ShopProfile(models.Model):
