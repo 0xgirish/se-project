@@ -1,10 +1,10 @@
 run:
-    python manage.py runserver
+	python manage.py runserver
 
 migrate:
-    python manage.py makemigrations
-    python manage.py migrate
+	python manage.py makemigrations
+	python manage.py migrate
 
 dummy:
-    python manage.py sheel <dummy.py
+	python manage.py shell <dummy.py
 
