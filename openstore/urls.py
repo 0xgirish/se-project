@@ -15,7 +15,6 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include, register_converter
-from home.views import location
 from home.views import register
 from home.views import logout_request
 from home.views import login_request
@@ -30,9 +29,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('lookup/<ean:barcode>', include('barcodelookup.urls')),
     path('', include('home.urls')),
-    path('location.html', location),
     path("register", register, name="register"),
     path("logout", logout_request, name="logout"),
     path("login", login_request, name="login"),
     path("account", account_access, name="account"),
+    path('seller/', include('seller.urls')),
 ]
