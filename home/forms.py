@@ -26,3 +26,8 @@ class RegistrationForm(UserCreationForm):
         if commit:
             user.save()
         return user
+
+
+class SellerLoginForm(forms.Form):
+    username = forms.CharField(max_length=100, required=True)
+    password = forms.PasswordInput()

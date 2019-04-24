@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 # from barcodelookup.models import Product
+from django.http import HttpResponseNotFound
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
@@ -9,6 +10,13 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def home_page(request):
+    form = RegistrationForm
+    return render(request=request,
+                  template_name="index.html",
+                  context={"form": form})
+
+
+def register_view(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
@@ -24,10 +32,8 @@ def home_page(request):
             return render(request=request,
                           template_name="index.html",
                           context={"form": form})
-    form = RegistrationForm
-    return render(request=request,
-                  template_name="index.html",
-                  context={"form": form})
+    else:
+        return HttpResponseNotFound("404")
 
 
 def contact_page(request):
@@ -85,9 +91,9 @@ def login_request(request):
         else:
             messages.error(request, "Invalid username or password.")
     form = AuthenticationForm()
-    return render(request = request,
-                  template_name = "login.html",
-                  context={"form":form})
+    return render(request=request,
+                  template_name="index.html",
+                  context={"form": form})
 
 
 @login_required
