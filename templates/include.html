@@ -63,12 +63,22 @@
 							<i class="fas fa-phone mr-2"></i> 001 234 5678
 						</li> -->
 						<li class="text-center border-right text-white">
+                            {% if user.is_authenticated %}
+                                <a href="/logout" class="text-white">
+								<i class="fas fa-sign-out-alt mr-2"></i>Log Out</a>
+                            {% else %}
 							<a href="#" data-toggle="modal" data-target="#exampleModal" class="text-white">
 								<i class="fas fa-sign-in-alt mr-2"></i> Seller Log In </a>
+                            {% endif %}
 						</li>
 						<li class="text-center border-right text-white">
+                            {% if user.is_authenticated %}
+                                <a href="/" class="text-white">
+								<i class="fas fa-home mr-2"></i>Hi {{ user.username }}</a>
+                            {% else %}
 							<a href="#" data-toggle="modal" data-target="#exampleModal2" class="text-white">
 								<i class="fas fa-sign-out-alt mr-2"></i>Seller Register </a>
+                            {% endif %}
                         </li>
                         <li class="text-center text-white">
                                 <a href="/contact" class="text-white">
