@@ -42,9 +42,14 @@ def register_view(request):
 def contact_page(request):
     return render(request, "contact.html")
 
-
 def temp_page(request):
-    return render(request, "single.html")
+    if request.method == "GET":
+        product_id = request.GET["pid"]
+        product = Product.objects.get(id=product_id)
+        shopItem = ShopItem.objects.filter(product=product)
+        args = {'product': product, 'shops': shopItem}
+        return render(request, "single.html", args)
+    return redirect(request, "/")
 
 
 def location(request):
