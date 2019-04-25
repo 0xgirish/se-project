@@ -77,17 +77,18 @@ html,body,h1,h2,h3,h4,h5 {font-family: "RobotoDraft", "Roboto", sans-serif}
   <p>Best Regards, <br>Borge Refsnes</p>
 </div>
 {% endfor %}
-
+{% for u in userP %}
 <div id="{{user}}" class="w3-container prof">
   <br>
   <img class="w3-round  w3-animate-top" src="/w3images/avatar3.png" style="width:20%;">
   <h5 class="w3-opacity">Hello {{user}}</h5>
   <hr>
   <h2>Name : </h2>
-  <h2>Address : user.address</h2>
-  <h2>Phone : user.phone</h2>
-  <h2>Website : user.website</h2>
+  <h2>Address : {{u.address}}</h2>
+  <h2>Phone : {{u.phone}}</h2>
+  <h2>Website : {{u.website}}</h2>
 </div>
+{% endfor %}
 
      
 </div>
