@@ -19,6 +19,19 @@
 			window.scrollTo(0, 1);
 		}
 	</script>
+	<style>
+		#map {
+			height: 450px;
+			width: 100%;
+			position: absolute;
+			right: 0;
+			margin-top: -20px;
+		}
+		#small-dialog1 {
+			position: absolute;
+			top: -150px;
+		}
+	</style>
 
 	<!-- //Meta tag Keywords -->
 
@@ -93,10 +106,10 @@
 			</div>
 		</div>
 	</div>
-
+	
 	<!-- Button trigger modal(select-location) -->
 	<div id="small-dialog1" class="mfp-hide">
-		<div class="select-city">
+		<!-- <div class="select-city">
 			<h3>
 				<i class="fas fa-map-marker"></i> Please Select Your Location</h3>
 			<select class="list_of_cities">
@@ -133,7 +146,8 @@
 				</optgroup>
 			</select>
 			<div class="clearfix"></div>
-		</div>
+		</div> -->
+		<div id="map"></div>
 	</div>
 	<!-- //shop locator (popup) -->
 	<!-- modals -->
@@ -241,8 +255,8 @@
 					<div class="row">
 						<!-- search -->
 						<div class="col-10 agileits_search">
-							<form class="form-inline" action="#" method="post">
-								<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" required>
+							<form class="form-inline" action="" method="get">
+								<input class="form-control mr-sm-2" name="q" type="search" placeholder="Search" aria-label="Search" required>
 								<button class="btn my-2 my-sm-0" type="submit">Search</button>
 							</form>
 						</div>
@@ -516,6 +530,18 @@
     <script src={% static "js/bootstrap.js" %}></script>
 	<!-- //for bootstrap working -->
 	<!-- //js-files -->
+	<!-- google maps -->
+	<script>
+		var map;
+		function initMap() {
+			map = new google.maps.Map(document.getElementById('map'), {
+				center: {lat: -34.397, lng: 150.644},
+				zoom: 8,
+			});
+		}
+	</script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBsWOCuRTvT2j9QSPMwuY_9DpC-Ei6sYvc&callback=initMap"
+    async defer></script>
 </body>
 
 </html>

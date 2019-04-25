@@ -10,6 +10,19 @@
 	<meta charset="UTF-8" />
 	<meta name="keywords" content="Open Store, product comparision, csl456, software engineering, amazon, flipkart, ebay"
 	/>
+	<style>
+		#map {
+			height: 450px;
+			width: 100%;
+			position: absolute;
+			right: 0;
+			margin-top: -20px;
+		}
+		#small-dialog1 {
+			position: absolute;
+			top: -150px;
+		}
+	</style>
 	<script>
 		addEventListener("load", function () {
 			setTimeout(hideURLbar, 0);
@@ -488,6 +501,18 @@
     <script src={% static "js/bootstrap.js" %}></script>
 	<!-- //for bootstrap working -->
 	<!-- //js-files -->
+	<!-- google maps -->
+	<script>
+			var map;
+			function initMap() {
+				map = new google.maps.Map(document.getElementById('map'), {
+					center: {lat: -34.397, lng: 150.644},
+					zoom: 8,
+				});
+			}
+		</script>
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCAXyN-se2dlQqHU3-ZqFFocafPSFL6Svc&callback=initMap"
+		async defer></script>
 </body>
 
 </html>

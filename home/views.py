@@ -4,14 +4,65 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
 
+from openstore.settings import SEARCH_THRESHOLD
 from seller.forms import RegistrationForm
 from seller.models import ShopItem, ShopProfile, UserProfile
+from barcodelookup.models import Product
+
+def search_model(model, query, *v):
+    # can not be
+    vector = SearchVector(*v)
+    result = model.objects.annotate(rank=SearchRank(vector, query)).order_by('-rank').filter(rank__gte=SEARCH_THRESHOLD)
+    if model == Product:
+        print(f"\n\n====================== Product {len(result)}=====================\n\n")
+        items = ShopItem.objects.filter(product__in=result)
+    elif model == ShopProfile:
+        print(f"\n\n====================== Shop {len(result)}=====================\n\n")
+        items = ShopItem.objects.filter(shop__in=result)
+    elif model == ShopItem:
+        print(f"\n\n====================== Item {len(result)}=====================\n\n")
+        items = result
+    else:
+        items = None
+    
+    return items
+
+def search(request):
+    q = request.GET['q']
+    query = SearchQuery(q)
+    # search using products
+    result_items = list()
+    result_items.append(search_model(Product, query, 'title', 'description'))
+    result_items.append(search_model(ShopProfile, query, 'name', 'website'))
+    result_items.append(search_model(ShopItem, query, 'description'))
+
+    result = list()
+    for items in result_items:
+        if items is None:
+            print("\n\n====================== NONE =====================\n\n")
+            continue
+        for item in items:
+            result.append(item)
+
+    return result
+
+def check_q(request):
+    try:
+        request.GET['q']
+        return True
+    except:
+        return False
 
 # Create your views here.
 def home_page(request):
-    items = ShopItem.objects.all()
     form = RegistrationForm
+
+    if request.method == "GET" and check_q(request):
+        items = search(request)
+    else:
+        items = ShopItem.objects.all()
     context = {
         "items": items,
         "form": form,
