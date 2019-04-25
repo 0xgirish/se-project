@@ -63,7 +63,6 @@ html,body,h1,h2,h3,h4,h5 {font-family: "RobotoDraft", "Roboto", sans-serif}
 <div class="w3-main" style="margin-left:320px;">
 <i class="fa fa-bars w3-button w3-white w3-hide-large w3-xlarge w3-margin-left w3-margin-top" onclick="w3_open()"></i>
 <a href="javascript:void(0)" class="w3-hide-large w3-red w3-button w3-right w3-margin-top w3-margin-right" onclick="document.getElementById('id01').style.display='block'"><i class="fa fa-pencil"></i></a>
-
 {% for shop in shops %}
 
 <div id="{{shop}}" class="w3-container shop">
@@ -73,8 +72,26 @@ html,body,h1,h2,h3,h4,h5 {font-family: "RobotoDraft", "Roboto", sans-serif}
   <h4><i class="fa fa-clock-o"></i> Setup Date: Sep 27, 2015.</h4>
   <hr>
   <p>{{shop.latitude}}</p>
-  <p>Write prodicys here and add a form for addition of products</p>
-  <p>Best Regards, <br>Borge Refsnes</p>
+  {% for item in items %}
+  {% if item.shop == shop %}
+              <div class="col-md-4 product-men mt-5">
+                <div class="men-pro-item simpleCart_shelfItem">
+                  <div class="men-thumb-item text-center">
+                    <img src="{{ item.image_url }}" alt="">
+                  </div>
+                  <div class="item-info-product text-center border-top mt-4">
+                    <h4 class="pt-1">
+                      <a href="/temp">{{ item.product.title }}</a>
+                    </h4>
+                    <div class="info-product-price my-2">
+                      <span class="item_price">₹{{ item.price }}</span>
+                      | {{item.quantity}} Items Available
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {%endif%}
+                            {% endfor %}
 </div>
 {% endfor %}
 {% for u in userP %}
@@ -89,7 +106,6 @@ html,body,h1,h2,h3,h4,h5 {font-family: "RobotoDraft", "Roboto", sans-serif}
   <h2>Website : {{u.website}}</h2>
 </div>
 {% endfor %}
-
      
 </div>
 
@@ -130,7 +146,6 @@ function myFunc(id) {
   event.currentTarget.className += " w3-light-grey";
 }
 
-openMail("Borge")
 function openMail(shop) {
   var i;
   var x = document.getElementsByClassName("shop");
