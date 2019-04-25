@@ -6,7 +6,7 @@ from django.contrib import messages
 from seller.forms import RegistrationForm
 from django.contrib.auth.decorators import login_required
 
-from seller.models import ShopItem
+from seller.models import ShopItem, ShopProfile, UserProfile
 
 
 # Create your views here.
@@ -102,5 +102,6 @@ def login_request(request):
 
 @login_required
 def account_access(request):
-    args = {'user': request.user}
+    user_prof = UserProfile.objects.filter(user=request.user)
+    args = {'user': request.user, 'shops': ShopProfile.objects.filter(user__in=user_prof)}
     return render(request, 'account.html', args)
