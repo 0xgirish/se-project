@@ -5,8 +5,8 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
-from seller.models import ShopItem
 from seller.forms import RegistrationForm
+from seller.models import ShopItem, ShopProfile, UserProfile
 
 # Create your views here.
 def home_page(request):
@@ -98,8 +98,3 @@ def login_request(request):
                   template_name="index.html",
                   context={"form": form})
 
-
-@login_required
-def account_access(request):
-    args = {'user': request.user}
-    return render(request, 'seller/dashboard.html', args)

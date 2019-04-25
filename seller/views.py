@@ -12,20 +12,18 @@ from .forms import ShopRegistrationForm, ItemRegistrationForm
 
 def seller_page(request):
     # TODO: add seller dashboard here
-    context = {
-        "dashboard": True
-    }
-    return render(request, "seller/profile.html", context=context)
+    return render(request, "seller/profile.html")
 
 
 @login_required
 def account_access(request):
+    print("\n\n---------------------------------------------------------------------\n\n")
     user = UserProfile.objects.get(user=request.user)
-    shops = ShopProfile.objects.filter(user=user)
-    context = {
-        "shops": shops,
-    }
-    return render(request, 'seller/dashboard.html', context=context)
+    shops = ShopProfile.objects.filter(user=user) 
+    shopitem = ShopItem.objects.filter(shop__in=shops)
+    # print("\n\n", f"length == {len(shopitem)}", "\n\n")
+    args = {'user': request.user, 'shops': shops, 'userP': user, 'items': shopitem}
+    return render(request, 'seller/dashboard.html', args)
 
 
 def shop_register(request):
