@@ -103,5 +103,7 @@ def login_request(request):
 @login_required
 def account_access(request):
     user_prof = UserProfile.objects.filter(user=request.user)
-    args = {'user': request.user, 'shops': ShopProfile.objects.filter(user__in=user_prof), 'userP': user_prof}
+    shops = ShopProfile.objects.filter(user__in=user_prof) 
+    shopItem = ShopItem.objects.filter(shop__in=shops)
+    args = {'user': request.user, 'shops': shops, 'userP': user_prof, 'items': shopItem}
     return render(request, 'account.html', args)
