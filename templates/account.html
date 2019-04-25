@@ -18,7 +18,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "RobotoDraft", "Roboto", sans-serif}
             </a>
   <a href="javascript:void(0)" onclick="w3_close()" title="Close Sidemenu" 
   class="w3-bar-item w3-button w3-hide-large w3-large">Close <i class="fa fa-remove"></i></a>
-  <a href="javascript:void(0)" class="w3-bar-item w3-button w3-dark-grey w3-button w3-hover-black w3-left-align" onclick="myFunc('Demo1')">Profile <i class="w3-padding fa fa-pencil"></i></a>
+  <a href="javascript:void(0)" class="w3-bar-item w3-button w3-dark-grey w3-button w3-hover-black w3-left-align" onclick="w3_close();openMail('{{user}}');w3_close();">Profile <i class="w3-padding fa fa-pencil"></i></a>
   <a id="myBtn" onclick="myFunc('Demo1')" href="javascript:void(0)" class="w3-bar-item w3-button"><i class="fa fa-inbox w3-margin-right"></i>My Shops <i class="fa fa-caret-down w3-margin-left"></i></a>
   <div id="Demo1" class="w3-hide w3-animate-left">
   
@@ -78,6 +78,17 @@ html,body,h1,h2,h3,h4,h5 {font-family: "RobotoDraft", "Roboto", sans-serif}
 </div>
 {% endfor %}
 
+<div id="{{user}}" class="w3-container prof">
+  <br>
+  <img class="w3-round  w3-animate-top" src="/w3images/avatar3.png" style="width:20%;">
+  <h5 class="w3-opacity">Hello {{user}}</h5>
+  <hr>
+  <h2>Name : </h2>
+  <h2>Address : user.address</h2>
+  <h2>Phone : user.phone</h2>
+  <h2>Website : user.website</h2>
+</div>
+
      
 </div>
 
@@ -105,6 +116,17 @@ function myFunc(id) {
     x.previousElementSibling.className = 
     x.previousElementSibling.className.replace(" w3-red", "");
   }
+  var i;
+  var x = document.getElementsByClassName("prof");
+  for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none";
+  }
+  x = document.getElementsByClassName("test");
+  for (i = 0; i < x.length; i++) {
+    x[i].className = x[i].className.replace(" w3-light-grey", "");
+  }
+  document.getElementById(user).style.display = "block";
+  event.currentTarget.className += " w3-light-grey";
 }
 
 openMail("Borge")
@@ -121,6 +143,8 @@ function openMail(shop) {
   document.getElementById(shop).style.display = "block";
   event.currentTarget.className += " w3-light-grey";
 }
+
+
 </script>
 
 <script>
