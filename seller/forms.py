@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import ShopProfile, ShopItem
+from .models import ShopProfile, ShopItem, UserProfile
 from barcodelookup.models import Product
 
 
@@ -29,25 +29,23 @@ class RegistrationForm(UserCreationForm):
         return user
 
 
-class RegisterShopForm(forms.Form):
-    name = forms.CharField(max_length=100, required=True)
-    latitude = forms.FloatField(required=True)
-    longitude = forms.FloatField(required=True)
-    website = forms.FloatField()
+
+class ShopRegistrationForm(forms.ModelForm):
+    user_id = forms.IntegerField(required=True)
 
     class Meta:
         model = ShopProfile
-        fields = {
-            'user',
-            'name',
-            'latitude',
-            'longitude',
-            'website',
-            'review_stars',
-        }
+        fields = [
+            "name",
+            "latitude",
+            "longitude",
+            "website",
+        ]
 
     def save(self, commit=True):
-        shop = super(RegisterShopForm, self).svae(commit=False)
+        shop = super(ShopRegistrationForm, self).save(commit=False)
+        user_id = self.cleaned_data['user_id']
+        shop.user = UserProfile.objects.get(user=user_id)
         shop.name = self.cleaned_data['name']
         shop.latitude = self.cleaned_data['latitude']
         shop.longitude = self.cleaned_data['longitude']
@@ -57,37 +55,34 @@ class RegisterShopForm(forms.Form):
             shop.save()
         return shop
 
-
-class RegisterItemForm(forms.Form):
-    image_url = forms.ImageField(allow_empty_file=True)
+class ItemRegistrationForm(forms.ModelForm):
+    shop_id = forms.IntegerField(required=True)
+    product_id = forms.IntegerField(required=True)
 
     class Meta:
         model = ShopItem
-        fields = {
-            'shop',
-            'barcode',
-            'price',
-            'priority',
-            'image_url',
-            'description',
-            'quantity',
-        }
+        fields = [
+            "price",
+            "priority",
+            "description",
+            "image_url",
+            "quantity",
+        ]
 
     def save(self, commit=True):
-        item = super(RegisterItemForm, self).svae(commit=False)
+        item = super(ItemRegistrationForm, self).save(commit=False)
+        product_id = self.cleaned_data['product_id']
+        shop_id = self.cleaned_data['shop_id']
+        item.product = Product.objects.get(id=product_id)
+        item.shop = ShopProfile(id=shop_id)
         item.price = self.cleaned_data['price']
-        item.priority = self.cleaned_data['priority']
         item.quantity = self.cleaned_data['quantity']
+        item.priority = self.cleaned_data['priority']
+        item.image_url = self.cleaned_data['image_url']
         item.description = self.cleaned_data['description']
-
-        barcode = self.cleaned_data['barcode']
-        shop_id = self.cleaned_data['shop']
-        product = Product.objects.get(barcode=barcode)
-        shop = ShopProfile.objects.get(id=shop_id)
-
-        item.product = product
-        item.shop = shop
 
         if commit:
             item.save()
+
         return item
+

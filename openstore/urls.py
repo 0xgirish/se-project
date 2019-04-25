@@ -20,7 +20,7 @@ from django.conf.urls.static import static
 from home.views import register
 from home.views import logout_request
 from home.views import login_request
-from home.views import account_access
+from seller.views import account_access
 
 from barcodelookup import converter
 

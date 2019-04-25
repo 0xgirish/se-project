@@ -3,11 +3,10 @@ from django.http import HttpResponseNotFound
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
-from seller.forms import RegistrationForm
 from django.contrib.auth.decorators import login_required
 
 from seller.models import ShopItem
-
+from seller.forms import RegistrationForm
 
 # Create your views here.
 def home_page(request):
@@ -103,4 +102,4 @@ def login_request(request):
 @login_required
 def account_access(request):
     args = {'user': request.user}
-    return render(request, 'account.html', args)
+    return render(request, 'seller/dashboard.html', args)

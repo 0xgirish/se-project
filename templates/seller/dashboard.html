@@ -13,32 +13,19 @@ html,body,h1,h2,h3,h4,h5 {font-family: "RobotoDraft", "Roboto", sans-serif}
 
 <!-- Side Navigation -->
 <nav class="w3-sidebar w3-bar-block w3-collapse w3-white w3-animate-left w3-card" style="z-index:3;width:320px;" id="mySidebar">
-  <a href="/" class="font-weight-bold font-italic">
-                            <img src="images/logo2.png" alt=" " class="img-fluid">Open Store
-            </a>
   <a href="javascript:void(0)" onclick="w3_close()" title="Close Sidemenu" 
   class="w3-bar-item w3-button w3-hide-large w3-large">Close <i class="fa fa-remove"></i></a>
   <a href="javascript:void(0)" class="w3-bar-item w3-button w3-dark-grey w3-button w3-hover-black w3-left-align" onclick="document.getElementById('id01').style.display='block'">Profile <i class="w3-padding fa fa-pencil"></i></a>
   <a id="myBtn" onclick="myFunc('Demo1')" href="javascript:void(0)" class="w3-bar-item w3-button"><i class="fa fa-inbox w3-margin-right"></i>My Shops <i class="fa fa-caret-down w3-margin-left"></i></a>
   <div id="Demo1" class="w3-hide w3-animate-left">
+    {% for shop in shops %}
     <a href="javascript:void(0)" class="w3-bar-item w3-button w3-border-bottom test w3-hover-light-grey" onclick="openMail('Borge');w3_close();" id="firstTab">
       <div class="w3-container">
-        <img class="w3-round w3-margin-right" src="/w3images/avatar3.png" style="width:15%;"><span class="w3-opacity w3-large">Rasna Sons</span>
-        <h6>Bela Chownk, Ropar</h6>
+{#        <img class="w3-round w3-margin-right" src="/w3images/avatar3.png" style="width:15%;"><span class="w3-opacity w3-large">Rasna Sons</span>#}
+        <h6>{{ shop.name }}</h6>
       </div>
     </a>
-     <a href="javascript:void(0)" class="w3-bar-item w3-button w3-border-bottom test w3-hover-light-grey" onclick="openMail('Jane');w3_close();">
-      <div class="w3-container">
-        <img class="w3-round w3-margin-right" src="/w3images/avatar5.png" style="width:15%;"><span class="w3-opacity w3-large">Amrita Snipers</span>
-        <p>IIT Ropar, Ropar</p>
-      </div>
-    </a>
-    <a href="javascript:void(0)" class="w3-bar-item w3-button w3-border-bottom test w3-hover-light-grey" onclick="openMail('John');w3_close();">
-      <div class="w3-container">
-        <img class="w3-round w3-margin-right" src="/w3images/avatar2.png" style="width:15%;"><span class="w3-opacity w3-large">Boot-Voot</span>
-        <p>Transit 1, IIT Ropar</p>
-      </div>
-    </a>
+      {% endfor %}
   </div>
   <a href="#" class="w3-bar-item w3-button"><i class="fa fa-trash w3-margin-right"></i>Some thing</a>
 </nav>
