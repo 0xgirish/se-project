@@ -1,170 +1,195 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>{{user}}</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-        <link href='https://fonts.googleapis.com/css?family=RobotoDraft' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <style>
-            html,body,h1,h2,h3,h4,h5 {font-family: "RobotoDraft", "Roboto", sans-serif}
-            .w3-bar-block .w3-bar-item {padding: 16px}
-        </style>
-    </head>
-    <body>
+<title>{{user}}</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+#customers {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
 
-        <!-- Side Navigation -->
-        <nav class="w3-sidebar w3-bar-block w3-collapse w3-white w3-animate-left w3-card" style="z-index:3;width:320px;" id="mySidebar">
-        <a href="javascript:void(0)" onclick="w3_close()" title="Close Sidemenu" 
-        class="w3-bar-item w3-button w3-hide-large w3-large">Close <i class="fa fa-remove"></i></a>
-        <a href="javascript:void(0)" class="w3-bar-item w3-button w3-dark-grey w3-button w3-hover-black w3-left-align" onclick="w3_close();openMail('{{user}}');w3_close();">Profile <i class="w3-padding fa fa-pencil"></i></a>
-        <a id="myBtn" onclick="myFunc('Demo1')" href="javascript:void(0)" class="w3-bar-item w3-button"><i class="fa fa-inbox w3-margin-right"></i>My Shops <i class="fa fa-caret-down w3-margin-left"></i></a>
-        <div id="Demo1" class="w3-hide w3-animate-left">
+#customers td, #customers th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
 
-        
-        {% for shop in shops %}
-            <a href="javascript:void(0)" class="w3-bar-item w3-button w3-border-bottom test w3-hover-light-grey" onclick="openMail('{{shop}}');w3_close();" id="firstTab">
-            <div class="w3-container">
-                <!-- <img class="w3-round w3-margin-right" src="/w3images/avatar3.png" style="width:15%;"> -->
-                <span class="w3-opacity w3-large">{{shop}}</span>
-                <h6>{{shop.longitude}}, {{shop.latitude}}</h6>
-            </div>
+#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+#customers tr:hover {background-color: #ddd;}
+
+#customers th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4CAF50;
+  color: white;
+}
+</style>
+
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link href='https://fonts.googleapis.com/css?family=RobotoDraft' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"><style>
+html,body,h1,h2,h3,h4,h5 {font-family: "RobotoDraft", "Roboto", sans-serif}
+.w3-bar-block .w3-bar-item {padding: 16px}
+</style>
+<body>
+
+<!-- Side Navigation -->
+<nav class="w3-sidebar w3-bar-block w3-collapse w3-white w3-animate-left w3-card" style="z-index:3;width:320px;" id="mySidebar">
+  <a href="/" class="font-weight-bold font-italic">
+                            <img src="images/logo2.png" alt=" " class="img-fluid">Open Store
             </a>
-        {% endfor %}
-        </nav>
+  <a href="javascript:void(0)" onclick="w3_close()" title="Close Sidemenu" 
+  class="w3-bar-item w3-button w3-hide-large w3-large">Close <i class="fa fa-remove"></i></a>
+  <a href="javascript:void(0)" class="w3-bar-item w3-button w3-dark-grey w3-button w3-hover-black w3-left-align" onclick="w3_close();openMail('{{user}}');w3_close();">Profile <i class="w3-padding fa fa-pencil"></i></a>
+  <a id="myBtn" onclick="myFunc('Demo1')" href="javascript:void(0)" class="w3-bar-item w3-button"><i class="fa fa-inbox w3-margin-right"></i>My Shops <i class="fa fa-caret-down w3-margin-left"></i></a>
+  <div id="Demo1" class="w3-hide w3-animate-left">
+  
+  {% for shop in shops %}
+    <a href="javascript:void(0)" class="w3-bar-item w3-button w3-border-bottom test w3-hover-light-grey" onclick="openMail('{{shop}}');w3_close();" id="firstTab">
+      <div class="w3-container">
+        <img class="w3-round w3-margin-right" src="/w3images/avatar3.png" style="width:15%;"><span class="w3-opacity w3-large">{{shop}}</span>
+        <h6>{{shop.longitude}}, {{shop.latitude}}</h6>
+      </div>
+    </a>
+  {% endfor %}
+</nav>
 
-        <!-- Modal that pops up when you click on "New Message" -->
-        <div id="id01" class="w3-modal" style="z-index:4">
-        <div class="w3-modal-content w3-animate-zoom">
-            <div class="w3-container w3-padding w3-red">
-            <span onclick="document.getElementById('id01').style.display='none'"
-            class="w3-button w3-red w3-right w3-xxlarge"><i class="fa fa-remove"></i></span>
-            <h2>Send Mail</h2>
-            </div>
-            <div class="w3-panel">
-            <label>To</label>
-            <input class="w3-input w3-border w3-margin-bottom" type="text">
-            <label>From</label>
-            <input class="w3-input w3-border w3-margin-bottom" type="text">
-            <label>Subject</label>
-            <input class="w3-input w3-border w3-margin-bottom" type="text">
-            <input class="w3-input w3-border w3-margin-bottom" style="height:150px" placeholder="What's on your mind?">
-            <div class="w3-section">
-                <a class="w3-button w3-red" onclick="document.getElementById('id01').style.display='none'">Cancel  <i class="fa fa-remove"></i></a>
-                <a class="w3-button w3-light-grey w3-right" onclick="document.getElementById('id01').style.display='none'">Send  <i class="fa fa-paper-plane"></i></a> 
-            </div>    
-            </div>
-        </div>
-        </div>
+<!-- Modal that pops up when you click on "New Message" -->
+<div id="id01" class="w3-modal" style="z-index:4">
+  <div class="w3-modal-content w3-animate-zoom">
+    <div class="w3-container w3-padding w3-red">
+       <span onclick="document.getElementById('id01').style.display='none'"
+       class="w3-button w3-red w3-right w3-xxlarge"><i class="fa fa-remove"></i></span>
+      <h2>Send Mail</h2>
+    </div>
+    <div class="w3-panel">
+      <label>To</label>
+      <input class="w3-input w3-border w3-margin-bottom" type="text">
+      <label>From</label>
+      <input class="w3-input w3-border w3-margin-bottom" type="text">
+      <label>Subject</label>
+      <input class="w3-input w3-border w3-margin-bottom" type="text">
+      <input class="w3-input w3-border w3-margin-bottom" style="height:150px" placeholder="What's on your mind?">
+      <div class="w3-section">
+        <a class="w3-button w3-red" onclick="document.getElementById('id01').style.display='none'">Cancel  <i class="fa fa-remove"></i></a>
+        <a class="w3-button w3-light-grey w3-right" onclick="document.getElementById('id01').style.display='none'">Send  <i class="fa fa-paper-plane"></i></a> 
+      </div>    
+    </div>
+  </div>
+</div>
 
-        <!-- Overlay effect when opening the side navigation on small screens -->
-        <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="Close Sidemenu" id="myOverlay"></div>
+<!-- Overlay effect when opening the side navigation on small screens -->
+<div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="Close Sidemenu" id="myOverlay"></div>
 
-        <!-- Page content -->
-        <div class="w3-main" style="margin-left:320px;">
-        <i class="fa fa-bars w3-button w3-white w3-hide-large w3-xlarge w3-margin-left w3-margin-top" onclick="w3_open()"></i>
-        <a href="javascript:void(0)" class="w3-hide-large w3-red w3-button w3-right w3-margin-top w3-margin-right" onclick="document.getElementById('id01').style.display='block'"><i class="fa fa-pencil"></i></a>
-        {% for shop in shops %}
+<!-- Page content -->
+<div class="w3-main" style="margin-left:320px;">
+<i class="fa fa-bars w3-button w3-white w3-hide-large w3-xlarge w3-margin-left w3-margin-top" onclick="w3_open()"></i>
+<a href="javascript:void(0)" class="w3-hide-large w3-red w3-button w3-right w3-margin-top w3-margin-right" onclick="document.getElementById('id01').style.display='block'"><i class="fa fa-pencil"></i></a>
+{% for shop in shops %}
+<div id="{{shop}}" class="w3-container shop">
+  <br>
+  <img class="w3-round  w3-animate-top" src="/w3images/avatar3.png" style="width:20%;">
+  <h5 class="w3-opacity">Owner: {{user}}</h5>
+  <h4><i class="fa fa-clock-o"></i> Website : {{shop.website}}</h4>
+  <hr>
+  <p>{{shop.latitude}}, {{shop.longitude}}</p>
 
-        <div id="{{shop}}" class="w3-container shop">
-        <br>
-        <img class="w3-round  w3-animate-top" src="/w3images/avatar3.png" style="width:20%;">
-        <h5 class="w3-opacity">Owner: {{ user.first_name }} {{ user.last_name  }}</h5>
-        <h4><i class="fa fa-clock-o"></i> Setup Date: Sep 27, 2015.</h4>
-        <hr>
-        <p>{{ shop.latitude }}</p>
-            {% for item in items %}
-                {% if item.shop == shop %}
-                    <div class="col-md-4 product-men mt-5">
-                    <div class="men-pro-item simpleCart_shelfItem">
-                        <div class="men-thumb-item text-center">
-                        <img src="{{ item.image_url }}" alt="">
-                        </div>
-                        <div class="item-info-product text-center border-top mt-4">
-                        <h4 class="pt-1">
-                            <a href="/temp">{{ item.product.title }}</a>
-                        </h4>
-                        <div class="info-product-price my-2">
-                            <span class="item_price">₹{{ item.price }}</span>
-                            | {{ item.quantity }} Items Available
-                        </div>
-                        </div>
-                    </div>
-                    </div>
-                {%endif%}
-            {% endfor %}
-        </div>
-        {% endfor %}
-        <div id="{{user}}" class="w3-container prof">
-            <br>
-            <img class="w3-round  w3-animate-top" src="/w3images/avatar3.png" style="width:20%;">
-            <h5 class="w3-opacity">Hello {{ user }}</h5>
-            <hr>
-            <h2>Name : {{ user.first_name }}</h2>
-            <h2>Address : {{ userP.address }}</h2>
-            <h2>Phone : {{ userP.phone }}</h2>
-            <h2>Website : {{ userP.website }}</h2>
-        </div>
+  <table id="customers">
+  <tr>
+    <th>Item</th>
+    <th>Price</th>
+    <th>Quantity</th>
+  </tr>
+  {% for item in items %}
+  {% if item.shop == shop %}
+    <tr>
+    <td>{{item}}</td>
+    <td>{{item.price}}</td>
+    <td>{{item.quantity}}</td>
+  </tr>
+    
+  {%endif%}
+{% endfor %}
 
-        <script>
-        var openInbox = document.getElementById("myBtn");
-        openInbox.click();
+</table>
+</div>
+{% endfor %}
+{% for u in userP %}
+<div id="{{user}}" class="w3-container prof">
+  <br>
+  <img class="w3-round  w3-animate-top" src="/w3images/avatar3.png" style="width:20%;">
+  <h5 class="w3-opacity">Hello {{user}}</h5>
+  <hr>
+  <h2>Name : </h2>
+  <h2>Address : {{u.address}}</h2>
+  <h2>Phone : {{u.phone}}</h2>
+  <h2>Website : {{u.website}}</h2>
+</div>
+{% endfor %}
+     
+</div>
 
-        function w3_open() {
-        document.getElementById("mySidebar").style.display = "block";
-        document.getElementById("myOverlay").style.display = "block";
-        }
+<script>
+var openInbox = document.getElementById("myBtn");
+openInbox.click();
 
-        function w3_close() {
-        document.getElementById("mySidebar").style.display = "none";
-        document.getElementById("myOverlay").style.display = "none";
-        }
+function w3_open() {
+  document.getElementById("mySidebar").style.display = "block";
+  document.getElementById("myOverlay").style.display = "block";
+}
 
-        function myFunc(id) {
-        var x = document.getElementById(id);
-        if (x.className.indexOf("w3-show") == -1) {
-            x.className += " w3-show";
-            x.previousElementSibling.className += " w3-red";
-        } else { 
-            x.className = x.className.replace(" w3-show", "");
-            x.previousElementSibling.className = 
-            x.previousElementSibling.className.replace(" w3-red", "");
-        }
-        var i;
-        var x = document.getElementsByClassName("prof");
-        for (i = 0; i < x.length; i++) {
-            x[i].style.display = "none";
-        }
-        x = document.getElementsByClassName("test");
-        for (i = 0; i < x.length; i++) {
-            x[i].className = x[i].className.replace(" w3-light-grey", "");
-        }
-        document.getElementById(user).style.display = "block";
-        event.currentTarget.className += " w3-light-grey";
-        }
+function w3_close() {
+  document.getElementById("mySidebar").style.display = "none";
+  document.getElementById("myOverlay").style.display = "none";
+}
 
-        function openMail(shop) {
-        var i;
-        var x = document.getElementsByClassName("shop");
-        for (i = 0; i < x.length; i++) {
-            x[i].style.display = "none";
-        }
-        x = document.getElementsByClassName("test");
-        for (i = 0; i < x.length; i++) {
-            x[i].className = x[i].className.replace(" w3-light-grey", "");
-        }
-        document.getElementById(shop).style.display = "block";
-        event.currentTarget.className += " w3-light-grey";
-        }
+function myFunc(id) {
+  var x = document.getElementById(id);
+  if (x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+    x.previousElementSibling.className += " w3-red";
+  } else { 
+    x.className = x.className.replace(" w3-show", "");
+    x.previousElementSibling.className = 
+    x.previousElementSibling.className.replace(" w3-red", "");
+  }
+  var i;
+  var x = document.getElementsByClassName("prof");
+  for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none";
+  }
+  x = document.getElementsByClassName("test");
+  for (i = 0; i < x.length; i++) {
+    x[i].className = x[i].className.replace(" w3-light-grey", "");
+  }
+  document.getElementById(user).style.display = "block";
+  event.currentTarget.className += " w3-light-grey";
+}
+
+function openMail(shop) {
+  var i;
+  var x = document.getElementsByClassName("shop");
+  for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none";
+  }
+  x = document.getElementsByClassName("test");
+  for (i = 0; i < x.length; i++) {
+    x[i].className = x[i].className.replace(" w3-light-grey", "");
+  }
+  document.getElementById(shop).style.display = "block";
+  event.currentTarget.className += " w3-light-grey";
+}
 
 
-        </script>
+</script>
 
-        <script>
-        var openTab = document.getElementById("firstTab");
-        openTab.click();
-        </script>
+<script>
+var openTab = document.getElementById("firstTab");
+openTab.click();
+</script>
 
-    </body>
+</body>
 </html>
