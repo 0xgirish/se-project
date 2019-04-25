@@ -94,7 +94,7 @@ def contact_page(request):
     return render(request, "contact.html")
 
 def temp_page(request):
-    if request.method == "GET" check_q(request, 'pid'):
+    if request.method == "GET" and check_q(request, 'pid'):
         product_id = request.GET["pid"]
         product = Product.objects.get(id=product_id)
         shopItem = ShopItem.objects.filter(product=product)
