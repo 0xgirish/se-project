@@ -531,16 +531,8 @@
 	<!-- //for bootstrap working -->
 	<!-- //js-files -->
 	<!-- google maps -->
-	<script>
-		var map;
-		function initMap() {
-			map = new google.maps.Map(document.getElementById('map'), {
-				center: {lat: -34.397, lng: 150.644},
-				zoom: 8,
-			});
-		}
-	</script>
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBsWOCuRTvT2j9QSPMwuY_9DpC-Ei6sYvc&callback=initMap"
+	<script src={% static "js/custom.js" %}></script>
+	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyBsWOCuRTvT2j9QSPMwuY_9DpC-Ei6sYvc&libraries=places&callback=initMap"
     async defer></script>
 </body>
 

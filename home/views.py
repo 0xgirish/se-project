@@ -100,7 +100,7 @@ def temp_page(request):
         shopItem = ShopItem.objects.filter(product=product)
         args = {'product': product, 'shops': shopItem}
         return render(request, "single.html", args)
-    return redirect(request, "/")
+    return redirect("/")
 
 
 def location(request):

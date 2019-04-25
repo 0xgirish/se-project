@@ -22,7 +22,7 @@ def account_access(request):
     shops = ShopProfile.objects.filter(user=user) 
     shopitem = ShopItem.objects.filter(shop__in=shops)
     # print("\n\n", f"length == {len(shopitem)}", "\n\n")
-    args = {'user': request.user, 'shops': shops, 'userP': user, 'items': shopitem}
+    args = {'shops': shops, 'userP': user, 'items': shopitem}
     return render(request, 'seller/dashboard.html', args)
 
 
