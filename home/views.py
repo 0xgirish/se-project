@@ -48,9 +48,9 @@ def search(request):
 
     return result
 
-def check_q(request):
+def check_q(request, q):
     try:
-        request.GET['q']
+        request.GET[q]
         return True
     except:
         return False
@@ -59,7 +59,7 @@ def check_q(request):
 def home_page(request):
     form = RegistrationForm
 
-    if request.method == "GET" and check_q(request):
+    if request.method == "GET" and check_q(request, 'q'):
         items = search(request)
     else:
         items = ShopItem.objects.all()
@@ -94,7 +94,7 @@ def contact_page(request):
     return render(request, "contact.html")
 
 def temp_page(request):
-    if request.method == "GET":
+    if request.method == "GET" check_q(request, 'pid'):
         product_id = request.GET["pid"]
         product = Product.objects.get(id=product_id)
         shopItem = ShopItem.objects.filter(product=product)
