@@ -3,6 +3,31 @@
 <title>{{user}}</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+#customers {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#customers td, #customers th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+#customers tr:hover {background-color: #ddd;}
+
+#customers th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4CAF50;
+  color: white;
+}
+</style>
+
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link href='https://fonts.googleapis.com/css?family=RobotoDraft' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"><style>
@@ -65,33 +90,33 @@ html,body,h1,h2,h3,h4,h5 {font-family: "RobotoDraft", "Roboto", sans-serif}
 <a href="javascript:void(0)" class="w3-hide-large w3-red w3-button w3-right w3-margin-top w3-margin-right" onclick="document.getElementById('id01').style.display='block'"><i class="fa fa-pencil"></i></a>
 {% for shop in shops %}
 
+
 <div id="{{shop}}" class="w3-container shop">
   <br>
   <img class="w3-round  w3-animate-top" src="/w3images/avatar3.png" style="width:20%;">
   <h5 class="w3-opacity">Owner: {{user}}</h5>
-  <h4><i class="fa fa-clock-o"></i> Setup Date: Sep 27, 2015.</h4>
+  <h4><i class="fa fa-clock-o"></i> Website : {{shop.website}}</h4>
   <hr>
-  <p>{{shop.latitude}}</p>
+  <p>{{shop.latitude}}, {{shop.longitude}}</p>
+
+  <table id="customers">
+  <tr>
+    <th>Item</th>
+    <th>Price</th>
+    <th>Quantity</th>
+  </tr>
   {% for item in items %}
   {% if item.shop == shop %}
-              <div class="col-md-4 product-men mt-5">
-                <div class="men-pro-item simpleCart_shelfItem">
-                  <div class="men-thumb-item text-center">
-                    <img src="{{ item.image_url }}" alt="">
-                  </div>
-                  <div class="item-info-product text-center border-top mt-4">
-                    <h4 class="pt-1">
-                      <a href="/temp">{{ item.product.title }}</a>
-                    </h4>
-                    <div class="info-product-price my-2">
-                      <span class="item_price">₹{{ item.price }}</span>
-                      | {{item.quantity}} Items Available
-                    </div>
-                  </div>
-                </div>
-              </div>
-              {%endif%}
-                            {% endfor %}
+    <tr>
+    <td>{{item}}</td>
+    <td>{{item.price}}</td>
+    <td>{{item.quantity}}</td>
+  </tr>
+    
+  {%endif%}
+  {% endfor %}
+
+</table>
 </div>
 {% endfor %}
 {% for u in userP %}
