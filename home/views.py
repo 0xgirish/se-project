@@ -5,11 +5,14 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
+from django.contrib.gis.geos import *
+from django.contrib.gis.measure import D
+
 
 from openstore.settings import SEARCH_THRESHOLD
 from seller.forms import RegistrationForm
 from seller.models import ShopItem, ShopProfile, UserProfile
-from barcodelookup.models import Product
+from barcodelookup.models import Product, Asin
 
 def search_model(model, query, *v):
     # can not be
@@ -57,6 +60,13 @@ def home_page(request):
 
     if request.method == "GET" and check_q(request, 'q'):
         items = search(request)
+    elif request.method == "GET" and check_q(request, 'lat'):
+        print("\n\n-----------------------------------------------\n\n")
+        lat = float(request.GET['lat'])
+        lng = float(request.GET['lng'])
+        location = Point(lat, lng)
+        shops = ShopProfile.objects.filter(location__distance_lte=(location, D(km=5))).order_by('distance')
+        items = ShopItem.objects.filter(shop__in=shops)
     else:
         items = ShopItem.objects.all()
     context = {
@@ -89,12 +99,19 @@ def register_view(request):
 def contact_page(request):
     return render(request, "contact.html")
 
-def temp_page(request):
+def product_page(request):
     if request.method == "GET" and check_q(request, 'pid'):
         product_id = request.GET["pid"]
         product = Product.objects.get(id=product_id)
+        try:
+            amazon = Asin.objects.get(product=product)
+        except:
+            amazon = None
         shopItem = ShopItem.objects.filter(product=product)
-        args = {'product': product, 'shops': shopItem}
+        args = {'product': product, 'shopitems': shopItem}
+        if amazon is not None:
+            args['amazon'] = amazon
+
         return render(request, "single.html", args)
     return redirect("/")
 

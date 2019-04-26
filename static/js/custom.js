@@ -1,3 +1,13 @@
+// var x = document.createElement("INPUT");
+// x.setAttribute("type", "hidden");
+// x.setAttribute("id", "lat");
+
+// var y = document.createElement("INPUT");
+// y.setAttribute("type", "hidden");
+// y.setAttribute("id", "lng");
+
+
+
 function getLocation() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(showPosition);
@@ -7,6 +17,8 @@ function getLocation() {
 }
 
 var lats, lngs;
+
+var seller = false;
 
 var map, infoWindow;
 var marker = false; ////Has the user plotted their location marker? 
@@ -90,8 +102,18 @@ function markerLocation(){
     document.getElementById("lat").value = lats;
     document.getElementById("lng").value = lngs;
     changeAdd();
+    if (!seller) { 
+        modifyHome();
+    }
 }
         
+function modifyHome() {
+    // alert("hi");
+    var latss = document.getElementById("lat").value;
+    var lngss = document.getElementById("lng").value;
+    window.location.href = "/?lat=" + latss + "&lng=" + lngss;
+}
+
 
 //Load the map when the page has finished loading.
 google.maps.event.addDomListener(window, 'load', initMap);
@@ -122,7 +144,9 @@ function getAdd(latt, lngg) {
     
     function mFunction(arr) {
         // console.log(arr['results']);
-        document.getElementById("address").value = arr['results'][0]['formatted_address'];
+        if(seller) {
+            document.getElementById("address").value = arr['results'][0]['formatted_address'];
+        }
     }            
 }
 

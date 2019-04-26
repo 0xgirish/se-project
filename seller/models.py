@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
+from django.contrib.gis.db import models
 
 from barcodelookup.models import Product
 
@@ -30,8 +31,7 @@ class ShopProfile(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     name = models.CharField(max_length=100, default="")
     address = models.CharField(max_length=200, default="not available")
-    latitude = models.FloatField(null=True)
-    longitude = models.FloatField(null=True)
+    location = models.PointField(null=True, blank=False, srid=4326, verbose_name="Location")
     website = models.CharField(default="not available", max_length=100)
     review_stars = models.IntegerField(default=-1)
 

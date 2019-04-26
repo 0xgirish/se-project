@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.postgres',
+    'django.contrib.gis',
 
     # custom apps
     'barcodelookup',
@@ -80,7 +81,7 @@ WSGI_APPLICATION = 'openstore.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': 'openstore',
         'USER':'se19',
         'PASSWORD':'12qwaszx',

@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .models import ShopProfile, ShopItem, UserProfile
 from barcodelookup.models import Product
-
+from django.contrib.gis.geos import *
 
 class RegistrationForm(UserCreationForm):
 
@@ -32,15 +32,15 @@ class RegistrationForm(UserCreationForm):
 
 class ShopRegistrationForm(forms.ModelForm):
     user_id = forms.IntegerField(required=True)
+    latitude = forms.FloatField(required=True)
+    longitude = forms.FloatField(required=True)
+    website = forms.CharField(max_length=100, required=False)
 
     class Meta:
         model = ShopProfile
         fields = [
             "name",
             "address",
-            "latitude",
-            "longitude",
-            "website",
         ]
 
     def save(self, commit=True):
@@ -49,8 +49,10 @@ class ShopRegistrationForm(forms.ModelForm):
         shop.user = UserProfile.objects.get(user=user_id)
         shop.address = self.cleaned_data['address']
         shop.name = self.cleaned_data['name']
-        shop.latitude = self.cleaned_data['latitude']
-        shop.longitude = self.cleaned_data['longitude']
+        lat = float(self.cleaned_data['latitude'])
+        lng = float(self.cleaned_data['longitude'])
+        location = Point(lat, lng)
+        shop.location = location
         shop.website = self.cleaned_data['website']
 
         if commit:
