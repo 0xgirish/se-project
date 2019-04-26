@@ -16,13 +16,10 @@ def search_model(model, query, *v):
     vector = SearchVector(*v)
     result = model.objects.annotate(rank=SearchRank(vector, query)).order_by('-rank').filter(rank__gte=SEARCH_THRESHOLD)
     if model == Product:
-        print(f"\n\n====================== Product {len(result)}=====================\n\n")
         items = ShopItem.objects.filter(product__in=result)
     elif model == ShopProfile:
-        print(f"\n\n====================== Shop {len(result)}=====================\n\n")
         items = ShopItem.objects.filter(shop__in=result)
     elif model == ShopItem:
-        print(f"\n\n====================== Item {len(result)}=====================\n\n")
         items = result
     else:
         items = None
@@ -41,7 +38,6 @@ def search(request):
     result = list()
     for items in result_items:
         if items is None:
-            print("\n\n====================== NONE =====================\n\n")
             continue
         for item in items:
             result.append(item)

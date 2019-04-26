@@ -6,6 +6,8 @@ function getLocation() {
     }
 }
 
+var lats, lngs;
+
 var map, infoWindow;
 var marker = false; ////Has the user plotted their location marker? 
 function initMap() {
@@ -31,6 +33,7 @@ function initMap() {
             infoWindow.open(map);
             map.setCenter(pos);
             map.setZoom(15);
+            getAdd(pos.lat, pos.lng);
         }, function() {
             handleLocationError(true, infoWindow, map.getCenter());
         });
@@ -58,6 +61,10 @@ function initMap() {
         } else{
             //Marker has already been added, so just change its location.
             marker.setPosition(clickedLocation);
+            lats = clickedLocation.lat();
+            lngs = clickedLocation.lng();
+            document.getElementById("lat").value = lats;
+            document.getElementById("lng").value = lngs;
         }
         //Get the marker's location.
         markerLocation();
@@ -78,13 +85,68 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 function markerLocation(){
     //Get location.
     var currentLocation = marker.getPosition();
-    //Add lat and lng values to a field that we can save.
-    // document.getElementById('lat').value = currentLocation.lat(); //latitude
-    // document.getElementById('lng').value = currentLocation.lng(); //longitude
-    console.log(currentLocation.lat());
-    console.log(currentLocation.lng());
+    lats = currentLocation.lat();
+    lngs = currentLocation.lng();
+    document.getElementById("lat").value = lats;
+    document.getElementById("lng").value = lngs;
+    changeAdd();
 }
         
 
 //Load the map when the page has finished loading.
 google.maps.event.addDomListener(window, 'load', initMap);
+
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+})
+
+
+function changeAdd() {
+    var latt = document.getElementById("lat").value;
+    var lngg = document.getElementById("lng").value;
+    getAdd(latt, lngg);
+}
+
+function getAdd(latt, lngg) {
+    var xmlhttp = new XMLHttpRequest();
+    var url = "https://maps.googleapis.com/maps/api/geocode/json?latlng="+ latt + "," + lngg +"&key=AIzaSyBsWOCuRTvT2j9QSPMwuY_9DpC-Ei6sYvc";
+    console.log(url);
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var myArr = JSON.parse(this.responseText);
+            mFunction(myArr);
+        }
+    };
+    xmlhttp.open("GET", url, true);
+    xmlhttp.send();
+    
+    function mFunction(arr) {
+        // console.log(arr['results']);
+        document.getElementById("address").value = arr['results'][0]['formatted_address'];
+    }            
+}
+
+function productDetails(barcode) {
+    var xmlhttp = new XMLHttpRequest();
+    var url = "/lookup/"+ barcode;
+    console.log(url);
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            // console.log(this.responseText);
+            var text = this.responseText.split(",")[1].split(":")[1].split("'")[1];
+            var image_url = this.responseText.split(",")[3].split(":")[1].split("'")[1];
+            var splited = this.responseText.split(":")
+            var pk = splited[splited.length-1].split("}")[0]
+            // var myArr = JSON.parse(text);
+            mfunction(text, image_url, pk);
+        }
+    };
+    xmlhttp.open("GET", url, true);
+    xmlhttp.send();
+    
+    function mfunction(text, image_url, pk) {
+        document.getElementById("pid").value = pk;
+        document.getElementById("product_title").value = text;
+        document.getElementById("image_u").value = image_url;
+    }            
+}

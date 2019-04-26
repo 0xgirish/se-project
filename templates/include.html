@@ -442,26 +442,6 @@
 
 	<!-- cart-js -->
     <script src={% static "js/minicart.js" %}></script>
-	<script>
-		paypals.minicarts.render(); //use only unique class names other than paypals.minicarts.Also Replace same class name in css and minicart.min.js
-
-		paypals.minicarts.cart.on('checkout', function (evt) {
-			var items = this.items(),
-				len = items.length,
-				total = 0,
-				i;
-
-			// Count the number of each item in the cart
-			for (i = 0; i < len; i++) {
-				total += items[i].get('quantity');
-			}
-
-			if (total < 3) {
-				alert('The minimum order quantity is 3. Please add more to your shopping cart before checking out');
-				evt.preventDefault();
-			}
-		});
-	</script>
 	<!-- //cart-js -->
 
 	<!-- password-script -->
@@ -497,7 +477,7 @@
 	<script>
 		jQuery(document).ready(function ($) {
 			$(".scroll").click(function (event) {
-				event.preventDefault();
+				// event.preventDefault();
 
 				$('html,body').animate({
 					scrollTop: $(this.hash).offset().top
@@ -527,13 +507,15 @@
 	<!-- //smooth-scrolling-of-move-up -->
 
 	<!-- for bootstrap working -->
-    <script src={% static "js/bootstrap.js" %}></script>
+	<script src={% static "js/bootstrap.js" %}></script>
 	<!-- //for bootstrap working -->
 	<!-- //js-files -->
 	<!-- google maps -->
 	<script src={% static "js/custom.js" %}></script>
+	
 	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyBsWOCuRTvT2j9QSPMwuY_9DpC-Ei6sYvc&libraries=places&callback=initMap"
-    async defer></script>
+	async defer></script>
+	google.maps.event.addDomListener(window, 'load', initMap);
 </body>
 
 </html>

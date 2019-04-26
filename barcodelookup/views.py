@@ -34,6 +34,28 @@ def get_names(resp):
             names += resp[i]["name"] + ", "
     return names
 
+def google_custom_search(barcode):
+    api_url = GOOGLE_API.format("AIzaSyBe6b_gfR1E8-2pOQb3HWUYISBzt1-esg8", "005395856063250790473:if-ztsdoo8m", barcode)
+    resp = requests.get(api_url)
+    r = json.loads(resp.text)
+    try:
+        items = r["items"]
+        size = len(items)
+        index = 0
+        indian = False
+        for i in range(size):
+            if items[i]["displayLink"].find("amazon.") != -1 and not indian:
+                index, indian = i, True
+            elif items[i]["displayLink"].find("amazon.in") != -1 and indian:
+                index = i
+        
+        image_url = items[index]["link"]
+        context_link = items[index]["image"]["contextLink"]
+        title = items[0]["title"]
+        return [title, image_url, context_link]
+    except KeyError:
+        return None
+
 
 def lookup_product(request, barcode):
     # add author 
@@ -42,7 +64,10 @@ def lookup_product(request, barcode):
     if product != None:
         s_product = serializers.serialize('json', [product, ])
         json_data = json.loads(s_product)
-        fields = json_data[0]["fields"]
+        field = json_data[0]
+        fields = json_data[0]['fields']
+        pk = field['pk']
+        fields['pk'] = 269
         print(type(fields))
         return HttpResponse([fields])
 
@@ -74,30 +99,11 @@ def lookup_product(request, barcode):
         link = "/".join(context_link.split("/")[3:])
         link = "https://www.amazon.in/" + link
         asin_code = context_link.split("/")[-1]
-        asin = Asin(product=product, asin=asin_code, link=link)
+        asin = Asin(product=product, asin=asin_code, image_url=link)
         asin.save()
     json_data = json.loads(s_product)
-    fields = json_data[0]["fields"]
+    field = json_data[0]
+    fields = json_data[0]['fields']
+    pk = field['pk']
+    fields['pk'] = 269
     return HttpResponse([fields])
-
-def google_custom_search(barcode):
-    api_url = GOOGLE_API.format("AIzaSyBZVs8cxX4mbesnj-pt55so0DfpSe2PJow", "005395856063250790473:if-ztsdoo8m", barcode)
-    resp = requests.get(api_url)
-    r = json.loads(resp.text)
-    try:
-        items = r["items"]
-        size = len(items)
-        index = 0
-        indian = False
-        for i in range(size):
-            if items[i]["displayLink"].find("amazon.") != -1 and not indian:
-                index, indian = i, True
-            elif items[i]["displayLink"].find("amazon.in") != -1 and indian:
-                index = i
-        
-        image_url = items[index]["link"]
-        context_link = items[index]["image"]["contextLink"]
-        title = items[0]["title"]
-        return [title, image_url, context_link]
-    except KeyError:
-        return None

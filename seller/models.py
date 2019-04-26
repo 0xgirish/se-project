@@ -29,6 +29,7 @@ class UserProfile(models.Model):
 class ShopProfile(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     name = models.CharField(max_length=100, default="")
+    address = models.CharField(max_length=200, default="not available")
     latitude = models.FloatField(null=True)
     longitude = models.FloatField(null=True)
     website = models.CharField(default="not available", max_length=100)
@@ -39,20 +40,11 @@ class ShopProfile(models.Model):
 
 
 class ShopItem(models.Model):
-    HIGH = 'h'
-    MEDIUM = 'm'
-    LOW = 'l'
-
-    ITEM_PRIORITY_CHOICES = (
-        (HIGH, 'high'),
-        (MEDIUM, 'medium'),
-        (LOW, 'low'),
-    )
 
     product = models.ForeignKey(Product, on_delete=models.PROTECT)
     shop = models.ForeignKey(ShopProfile, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100, default="")
     price = models.IntegerField(default=-1)
-    priority = models.CharField(max_length=2, choices=ITEM_PRIORITY_CHOICES, default=MEDIUM)
     description = models.TextField(default="not available")
     image_url = models.TextField(default=NOT_FOUND)
     # image_url = models.ImageField(upload_to="images/")

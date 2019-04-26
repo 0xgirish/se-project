@@ -1,5 +1,144 @@
 {% extends "seller/include.html" %} {% load staticfiles %} {% block content %}
 
     <iframe src="/account" style="height: 750px;width: 100%; border: none" onload="resizeIframe(this)"></iframe>
+    <!-- Light circle button with ripple effect -->
+    <button class="btn pmd-btn-fab pmd-ripple-effect btn-primary" style="position: absolute; right: 20px; bottom: 20px; border-radius: 200px;" type="button"><i class="material-icons pmd-sm"  data-toggle="modal" data-target="#exampleModal3">product</i></button>
+    <button class="btn pmd-btn-fab pmd-ripple-effect btn-primary" style="position: absolute; right: 20px; bottom: 80px; border-radius: 200px;" type="button"><i class="material-icons pmd-sm"  data-toggle="modal" data-target="#exampleModal2">shop</i></button>
+    <!-- register -->
+    <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Seller Registeration</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form action="/seller/shop/register" method="POST">
+                        {% csrf_token %}
+						<div class="form-group">
+{#							<label class="col-form-label">Username</label>#}
+							<input type="text" class="form-control" placeholder="shop name" name="name" required="">
+						</div>
+						<div class="form-group">
+{#							<label class="col-form-label">First Name</label>#}
+							<input type="text" class="form-control" placeholder="website" name="website">
+						</div>
+                      <div class="form-group">
+{#							<label class="col-form-label">Last Name</label>#}
+                                    <input type="text" class="form-control" id="address" placeholder="Address" name="address" required="">
+                                
+						</div>
+                        <input name="latitude" type="hidden" id="lat" />
+                        <input name="longitude" type="hidden" id="lng" />
+                        <input value="{{ user.id }}" name="user_id" type="hidden"/>
+{#                        {{form.as_p}}#}
+						<div class="right-w3l">
+							<input type="submit" class="form-control" value="Register">
+                        </div>
+                    </form>
+				</div>
+			</div>
+		</div>
+    </div>
+
+    <div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Seller Registeration</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form action="/seller/item/register" method="POST">
+                        {% csrf_token %}
+						<div class="form-group">
+							<input type="text" class="form-control" placeholder="UPC code" name="barcode" id="barcode" required="">
+						</div>
+						<div class="form-group">
+							<input type="text" class="form-control" id="product_title" placeholder="Product name" name="title" required="">
+						</div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="price" name="price" required="">      
+                        </div>
+                        <div class="form-group">
+                                <input type="number" class="form-control" placeholder="quantity" name="qunatity" required="">      
+                        </div>
+                        <div class="form-group">
+                                <select class="form-control" id="shop" name="shop_id" placeholder="select shop">
+                                    {% for shop in shops %}
+                                    <option value="{{ shop.id }}">{{ shop.name }}</option>
+                                    {% endfor %}
+                                </select>  
+                        </div>
+                        <div class="form-group">
+                                <input type="file" class="form-control" id="image" placeholder="add image" name="image_u">      
+                        </div>
+                        <div class="form-group">
+                                <textarea type="text" class="form-control" rows="3" placeholder="Describe your product" name="description"></textarea>      
+                        </div>
+                        <input id="pid" name="product_id" type="hidden"/>
+                        <input id="image_u" name="image_" type="hidden"/>
+						<div class="right-w3l">
+							<input type="submit" class="form-control" value="Register">
+                        </div>
+                    </form>
+				</div>
+			</div>
+		</div>
+    </div>
+    
+    <script>
+        window.onload = function() {
+            document.getElementById("address").onchange = changeLatLng;
+            document.getElementById("barcode").onchange = changeTitle;
+        }
+        function changeTitle() {
+            var barcode = document.getElementById("barcode").value;
+            productDetails(barcode);
+        }
+
+        function changeLatLng() {
+            var address = document.getElementById("address").value;
+            var add = address.split();
+            var address = "";
+            for(i = 0; i < add.length; i++) {
+                if(i == add.length) {
+                    address += add[i];
+                    continue; 
+                }
+                address += add[i] + "+";
+            }
+            getLatLng(address);
+        }
+
+
+        function getLatLng(address) {
+            var xmlhttp = new XMLHttpRequest();
+            var url = "https://maps.googleapis.com/maps/api/geocode/json?address="+ address +"&key=AIzaSyBsWOCuRTvT2j9QSPMwuY_9DpC-Ei6sYvc";
+            
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var myArr = JSON.parse(this.responseText);
+                    myFunction(myArr);
+                }
+            };
+            xmlhttp.open("GET", url, true);
+            xmlhttp.send();
+            
+            function myFunction(arr) {
+                console.log(arr['results']);
+                var latitude = arr['results'][0]['geometry']['location']['lat'];
+                var longitude = arr['results'][0]['geometry']['location']['lng'];
+                document.getElementById("lat").value = latitude;
+                document.getElementById("lng").value = longitude;
+                console.log(latitude, longitude);
+            }
+        }
+    </script>
+
 
 {% endblock %}

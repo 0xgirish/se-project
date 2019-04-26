@@ -37,6 +37,7 @@ class ShopRegistrationForm(forms.ModelForm):
         model = ShopProfile
         fields = [
             "name",
+            "address",
             "latitude",
             "longitude",
             "website",
@@ -46,6 +47,7 @@ class ShopRegistrationForm(forms.ModelForm):
         shop = super(ShopRegistrationForm, self).save(commit=False)
         user_id = self.cleaned_data['user_id']
         shop.user = UserProfile.objects.get(user=user_id)
+        shop.address = self.cleaned_data['address']
         shop.name = self.cleaned_data['name']
         shop.latitude = self.cleaned_data['latitude']
         shop.longitude = self.cleaned_data['longitude']
@@ -58,28 +60,32 @@ class ShopRegistrationForm(forms.ModelForm):
 class ItemRegistrationForm(forms.ModelForm):
     shop_id = forms.IntegerField(required=True)
     product_id = forms.IntegerField(required=True)
+    barcode = forms.IntegerField(required=True)
+    image_u = forms.ImageField()
+    imagr_ = forms.CharField(max_length=100)
 
     class Meta:
         model = ShopItem
         fields = [
+            "title",
             "price",
-            "priority",
             "description",
-            "image_url",
             "quantity",
         ]
 
     def save(self, commit=True):
-        item = super(ItemRegistrationForm, self).save(commit=False)
+        print(f"\n\n{self.cleaned_data['shop_id']}\n{self.cleaned_data['product_id']}\n\n")
+        # item = super(ItemRegistrationForm, self).save(commit=False)
         product_id = self.cleaned_data['product_id']
         shop_id = self.cleaned_data['shop_id']
-        item.product = Product.objects.get(id=product_id)
-        item.shop = ShopProfile(id=shop_id)
-        item.price = self.cleaned_data['price']
-        item.quantity = self.cleaned_data['quantity']
-        item.priority = self.cleaned_data['priority']
-        item.image_url = self.cleaned_data['image_url']
-        item.description = self.cleaned_data['description']
+        product = Product.objects.get(id=product_id)
+        shop = ShopProfile(id=shop_id)
+        title = str(self.cleaned_data['title'])
+        price = int(self.cleaned_data['price'])
+        quantity = int(self.cleaned_data['quantity'])
+        description = self.cleaned_data['description']
+
+        item = ShopItem(product=product, shop=shop, title=title, price=price, description=description, quantity=quantity)
 
         if commit:
             item.save()

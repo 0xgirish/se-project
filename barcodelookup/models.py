@@ -30,7 +30,7 @@ class Asin(models.Model):
     product = models.OneToOneField(Product, on_delete=models.PROTECT)
     asin = models.CharField(max_length=40)
     image_url = models.TextField(default=NOT_FOUND)
-    is_available = models.BooleanField(default=True)
+    is_available = models.BooleanField(default=False)
     price = models.IntegerField(default=NOT_AVAILABLE)
     checked = models.BooleanField(default=False)
 

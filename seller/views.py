@@ -12,12 +12,18 @@ from .forms import ShopRegistrationForm, ItemRegistrationForm
 
 def seller_page(request):
     # TODO: add seller dashboard here
-    return render(request, "seller/profile.html")
+    form = ShopRegistrationForm
+    user = UserProfile.objects.get(user=request.user)
+    shops = ShopProfile.objects.filter(user=user)
+    context = {
+        "form" : form,
+        "shops": shops,
+    }
+    return render(request, "seller/profile.html", context)
 
 
 @login_required
 def account_access(request):
-    print("\n\n---------------------------------------------------------------------\n\n")
     user = UserProfile.objects.get(user=request.user)
     shops = ShopProfile.objects.filter(user=user) 
     shopitem = ShopItem.objects.filter(shop__in=shops)
@@ -36,21 +42,9 @@ def shop_register(request):
             messages.success(request, f"New shop created: {shop_name}")
             return redirect("/seller/profile")
         else:
-            error_messages = ""
-            for msg in form.error_messages:
-                error_messages = msg + "\n"
-                messages.error(request, f"{msg}: {form.error_messages[msg]}")
-            return render(request, "seller/form.html", context={"form": form})
-    
-    form = ShopRegistrationForm
-    submit_url = "/seller/shop/register"
-    todo_html = "seller/shop_register.html"
-    context = {
-        "form": form,
-        "submit_url": submit_url,
-        "todo_html": todo_html,
-    }
-    return render(request, "seller/form.html", context)
+            return redirect("/seller/profile")
+
+    return redirect("/seller/profile")
 
 
 def item_register(request):
@@ -64,18 +58,6 @@ def item_register(request):
             messages.success(request, f"New item created for shop {shop_id}: {product_id}")
             return redirect("/seller/profile")
         else:
-            error_messages = ""
-            for msg in form.error_messages:
-                error_messages = msg + "\n"
-                messages.error(request, f"{msg}: {form.error_messages[msg]}")
-            return render(request, "seller/form.html", context={"form": form})
+            return redirect("/seller/profile")
     
-    form = ItemRegistrationForm
-    submit_url = "/seller/item/register"
-    todo_html = "seller/item_register.html"
-    context = {
-        "form": form,
-        "submit_url": submit_url,
-        "todo_html": todo_html,
-    }
-    return render(request, "seller/form.html", context)
+    return redirect("/seller/profile")
