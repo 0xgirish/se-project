@@ -97,4 +97,4 @@ while True:
 		asin.checked = True
 		asin.save()
 		print("Price = "+str(price)+" availability= "+ ans)
-	sleep(30)
+	sleep(5)

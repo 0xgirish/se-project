@@ -59,19 +59,19 @@ class ShopRegistrationForm(forms.ModelForm):
             shop.save()
         return shop
 
-class ItemRegistrationForm(forms.ModelForm):
+class ItemRegistrationForm(forms.Form):
     shop_id = forms.IntegerField(required=True)
     product_id = forms.IntegerField(required=True)
     barcode = forms.IntegerField(required=True)
     image_u = forms.ImageField()
     imagr_ = forms.CharField(max_length=100)
+    description = forms.Textarea()
 
     class Meta:
         model = ShopItem
         fields = [
             "title",
             "price",
-            "description",
             "quantity",
         ]
 
